@@ -2,24 +2,22 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const Gasto = sequelize.define('Gasto', {
+  return sequelize.define('Gasto', {
     descricao: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     valor: {
-      type: DataTypes.DECIMAL(10,2),
-      allowNull: false
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
     },
     data: {
       type: DataTypes.DATEONLY,
-      allowNull: false
+      allowNull: false,
     },
     categoria: {
       type: DataTypes.STRING,
-      allowNull: true
-    }
+      allowNull: true,
+    },
   });
-
-  return Gasto;
 };

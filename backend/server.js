@@ -1,7 +1,8 @@
+// backend/server.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { Sequelize, DataTypes, Op } = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 const path = require('path');
 
 const app = express();
@@ -10,22 +11,17 @@ const PORT = 3000;
 // --- Configurações ---
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '../frontend'))); // Serve frontend
+app.use(express.static(path.join(__dirname, '../frontend'))); // Serve o frontend
 
 // --- Inicializa SQLite ---
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: './database.sqlite',
-  logging: false
+  storage: path.join(__dirname, '../database.sqlite'),
+  logging: false,
 });
 
-// --- Modelo Gasto ---
-const Gasto = sequelize.define('Gasto', {
-  descricao: { type: DataTypes.STRING, allowNull: false },
-  valor: { type: DataTypes.FLOAT, allowNull: false },
-  data: { type: DataTypes.DATEONLY, allowNull: false },
-  categoria: { type: DataTypes.STRING }
-});
+// --- Importa o modelo ---
+const Gasto = require('./models/Gasto')(sequelize);
 
 // --- Rotas ---
 
@@ -49,22 +45,25 @@ app.get('/gastos', async (req, res) => {
 app.get('/resumo', async (req, res) => {
   const { month } = req.query;
   const gastos = await Gasto.findAll({
-    where: { data: { [Op.like]: `${month}%` } }
+    where: { data: { [Op.like]: `${month}%` } },
   });
 
-  const total = gastos.reduce((sum, g) => sum + g.valor, 0);
+  const total = gastos.reduce((sum, g) => sum + parseFloat(g.valor), 0);
   const porCategoria = {};
-  gastos.forEach(g => {
+  gastos.forEach((g) => {
     const cat = g.categoria || 'Sem categoria';
-    porCategoria[cat] = (porCategoria[cat] || 0) + g.valor;
+    porCategoria[cat] = (porCategoria[cat] || 0) + parseFloat(g.valor);
   });
 
   res.json({ total, porCategoria });
 });
 
 // --- Sincroniza DB e inicia servidor ---
-sequelize.sync().then(() => {
-  app.listen(PORT, () => {
-    console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
-  });
-});
+sequelize
+  .sync()
+  .then(() => {
+    app.listen(PORT, () =>
+      console.log(`🚀 Servidor rodando em http://localhost:${PORT}`)
+    );
+  })
+  .catch((err) => console.error('Erro ao sincronizar banco:', err));
