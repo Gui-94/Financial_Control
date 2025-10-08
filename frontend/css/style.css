@@ -35,3 +35,13 @@ ul {
   list-style: none;
   padding-left: 0;
 }
+
+footer {
+  position: fixed;
+  bottom: 10px; 
+  left: 15px;     
+  background: none; 
+  color: #333;     
+  font-size: 14px;
+  text-align: left;
+}
