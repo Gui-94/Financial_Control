@@ -1,23 +1,19 @@
-// backend/models/Gasto.js
 const { DataTypes } = require('sequelize');
+const sequelize = require('../database');
 
-module.exports = (sequelize) => {
-  return sequelize.define('Gasto', {
-    descricao: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    valor: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false,
-    },
-    data: {
-      type: DataTypes.DATEONLY,
-      allowNull: false,
-    },
-    categoria: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-  });
-};
+const Gasto = sequelize.define('Gasto', {
+  descricao: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  valor: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false
+  },
+  categoria: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+});
+
+module.exports = Gasto;
