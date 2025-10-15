@@ -3,47 +3,124 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Controle de Gastos</title>
+  <title>Login - Controle de Gastos</title>
   <link rel="stylesheet" href="./src/css/style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      width: 350px;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      width: 95%;
+      padding: 10px;
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #e63939;
+    }
+    .toggle-link {
+      color: #007bff;
+      cursor: pointer;
+      text-decoration: underline;
+      display: inline-block;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <h1>💰 Controle de Gastos</h1>
+    <h1>🔐 Login</h1>
 
-    <form id="formGasto" class="card">
-      <h2>Adicionar Gasto</h2>
-      <input type="text" id="descricao" placeholder="Descrição" required>
-      <input type="number" step="0.01" id="valor" placeholder="Valor" required>
-      <input type="date" id="data" required>
-      <input type="text" id="categoria" placeholder="Categoria">
-      <button type="submit">Adicionar 💸</button>
+    <!-- Formulário de Login -->
+    <form id="loginForm" class="card">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="senha" placeholder="Senha" required>
+      <button type="submit">Entrar</button>
     </form>
 
-    <div class="card">
-      <h2>Gastos do mês</h2>
-      <ul id="listaGastos"></ul>
-    </div>
+    <!-- Formulário de Cadastro (oculto por padrão) -->
+    <form id="registerForm" class="card" style="display:none;">
+      <input type="email" id="newEmail" placeholder="Novo Email" required>
+      <input type="password" id="newSenha" placeholder="Nova Senha" required>
+      <button type="submit">Criar Conta</button>
+    </form>
 
-    <div class="card">
-      <h2>Resumo do mês</h2>
-      <div id="resumo"></div>
-    </div>
-
-    <div class="card">
-      <h2>Gráfico de Gastos por Categoria</h2>
-      <canvas id="graficoGastos"></canvas>
-    </div>
+    <p class="toggle-link" id="toggleForm">Criar uma conta</p>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="js/script.js"></script>
+  <script>
+    const toggleForm = document.getElementById('toggleForm');
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+
+    // Alternar entre login e cadastro
+    toggleForm.addEventListener('click', () => {
+      if (loginForm.style.display === 'none') {
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';
+        toggleForm.textContent = 'Criar uma conta';
+      } else {
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
+        toggleForm.textContent = 'Já tenho uma conta';
+      }
+    });
+
+    // Login
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const senha = document.getElementById('senha').value;
+
+      const usuario = JSON.parse(localStorage.getItem('usuario'));
+
+      if (!usuario || email !== usuario.email) {
+        alert('Usuário não encontrado!');
+      } else if (senha !== usuario.senha) {
+        alert('Senha incorreta!');
+      } else {
+        localStorage.setItem('logado', 'true');
+        window.location.href = './Onepag.html';
+      }
+    });
+
+    // Cadastro
+    registerForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const newEmail = document.getElementById('newEmail').value;
+      const newSenha = document.getElementById('newSenha').value;
+
+      localStorage.setItem('usuario', JSON.stringify({ email: newEmail, senha: newSenha }));
+      alert('Conta criada com sucesso! Agora faça login.');
+
+      // Volta pro login
+      registerForm.style.display = 'none';
+      loginForm.style.display = 'block';
+      toggleForm.textContent = 'Criar uma conta';
+    });
+  </script>
 </body>
 </html>
- 
-<footer>
-  <p>© 2025 Controle de Gastos | Desenvolvido por <strong>Lucas Cabral e Guilherme Tavares</strong></p>
-  <div class="social">
-    <a href="https://github.com/Caabraldev" target="_blank">GitHub</a> 
-    <a href="https://github.com/Gui-94" target="_blank">GitHub</a> 
-  </div>
-</footer>

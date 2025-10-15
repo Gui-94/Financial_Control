@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Controle de Gastos</title>
+
+  <link rel="stylesheet" href="./src/css/style.css">
+
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>💰 Controle de Gastos</h1>
+
+    <form id="formGasto" class="card">
+
+      <h2>Adicionar Gasto</h2>
+
+      <input type="text" id="descricao" placeholder="Descrição" required>
+
+      <input type="number" step="0.01" id="valor" placeholder="Valor" required>
+
+      <input type="date" id="data" required>
+
+      <input type="text" id="categoria" placeholder="Categoria">
+
+      <button type="submit">Adicionar 💸</button>
+
+    </form>
+
+    <div class="card">
+
+      <h2>Gastos do mês</h2>
+
+      <ul id="listaGastos"></ul>
+
+    </div>
+
+    <div class="card">
+
+      <h2>Resumo do mês</h2>
+
+      <div id="resumo"></div>
+
+    </div>
+
+    <div class="card">
+
+      <h2>Gráfico de Gastos por Categoria</h2>
+
+      <canvas id="graficoGastos"></canvas>
+
+    </div>
+
+  </div>
+
+ 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script src="js/script.js"></script>
+
+</body>
+
+</html>
+
+<footer>
+
+  <p>© 2025 Controle de Gastos | Desenvolvido por <strong>Lucas Cabral e Guilherme Tavares</strong></p>
+
+  <div class="social">
+
+    <a href="https://github.com/Caabraldev" target="_blank">GitHub</a>
+
+    <a href="https://github.com/Gui-94" target="_blank">GitHub</a>
+
+  </div>
+
+</footer>
+
+  <head>
+
+    <title>Chart.js example</title>
+
+  </head>
+
+  <body>
+
+    <div style="width: 800px;"><canvas id="acquisitions"></canvas></div>
+
+    <script type="module" src="acquisitions.js"></script>
+
+  </body>
+
+</html>

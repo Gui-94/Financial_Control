@@ -3,9 +3,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
-const { Op } = require('sequelize');
-const sequelize = require('./database'); // ✅ conexão MySQL
-const Gasto = require('./models/Gasto'); // ✅ modelo MySQL
 
 const app = express();
 const PORT = 3000;
@@ -15,51 +12,32 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../frontend'))); // Serve o frontend
 
-// --- Rotas ---
+// Usuário fixo
+const USUARIO = {
+  email: 'admin@teste.com',
+  senha: '123456'
+};
 
-// Criar gasto
-app.post('/gastos', async (req, res) => {
-  try {
-    const gasto = await Gasto.create(req.body);
-    res.json(gasto);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+// Rota de login
+app.post('/login', (req, res) => {
+  const { email, senha } = req.body;
+
+  if (!email || !senha) {
+    res.status(400).json({ error: 'Email e senha são obrigatórios!' });
+  } else if (email !== USUARIO.email) {
+    res.status(401).json({ error: 'Usuário não encontrado!' });
+  } else if (senha !== USUARIO.senha) {
+    res.status(401).json({ error: 'Senha incorreta!' });
+  } else {
+    res.json({ message: 'Login bem-sucedido!' });
   }
 });
 
-// Listar todos os gastos
-app.get('/gastos', async (req, res) => {
-  const gastos = await Gasto.findAll({ order: [['createdAt', 'DESC']] });
-  res.json(gastos);
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
 });
 
-// Resumo por mês
-app.get('/resumo', async (req, res) => {
-  const { month } = req.query;
-
-  const gastos = await Gasto.findAll({
-    where: {
-      createdAt: { [Op.like]: `${month}%` }
-    },
-  });
-
-  const total = gastos.reduce((sum, g) => sum + parseFloat(g.valor), 0);
-  const porCategoria = {};
-
-  gastos.forEach((g) => {
-    const cat = g.categoria || 'Sem categoria';
-    porCategoria[cat] = (porCategoria[cat] || 0) + parseFloat(g.valor);
-  });
-
-  res.json({ total, porCategoria });
-});
-
-// --- Sincroniza DB e inicia servidor ---
-sequelize.sync()
-  .then(() => {
-    console.log('📦 Tabelas sincronizadas com o MySQL');
-    app.listen(PORT, () => {
-      console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
-    });
-  })
-  .catch((err) => console.error('❌ Erro ao sincronizar banco:', err));
+// Bloqueia acesso se não estiver logado
+if (!localStorage.getItem('logado')) {
+  window.location.href = 'login.html';
+}
