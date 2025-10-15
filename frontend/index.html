@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Controle de Gastos</title>
   <link rel="stylesheet" href="./src/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -71,56 +72,85 @@
     <p class="toggle-link" id="toggleForm">Criar uma conta</p>
   </div>
 
-  <script>
-    const toggleForm = document.getElementById('toggleForm');
-    const loginForm = document.getElementById('loginForm');
-    const registerForm = document.getElementById('registerForm');
+  <!-- Importa o SweetAlert2 (coloca no <head> do HTML) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    // Alternar entre login e cadastro
-    toggleForm.addEventListener('click', () => {
-      if (loginForm.style.display === 'none') {
-        loginForm.style.display = 'block';
-        registerForm.style.display = 'none';
-        toggleForm.textContent = 'Criar uma conta';
-      } else {
-        loginForm.style.display = 'none';
-        registerForm.style.display = 'block';
-        toggleForm.textContent = 'Já tenho uma conta';
-      }
-    });
+<script>
+  const toggleForm = document.getElementById('toggleForm');
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
 
-    // Login
-    loginForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const senha = document.getElementById('senha').value;
-
-      const usuario = JSON.parse(localStorage.getItem('usuario'));
-
-      if (!usuario || email !== usuario.email) {
-        alert('Usuário não encontrado!');
-      } else if (senha !== usuario.senha) {
-        alert('Senha incorreta!');
-      } else {
-        localStorage.setItem('logado', 'true');
-        window.location.href = './Onepag.html';
-      }
-    });
-
-    // Cadastro
-    registerForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const newEmail = document.getElementById('newEmail').value;
-      const newSenha = document.getElementById('newSenha').value;
-
-      localStorage.setItem('usuario', JSON.stringify({ email: newEmail, senha: newSenha }));
-      alert('Conta criada com sucesso! Agora faça login.');
-
-      // Volta pro login
-      registerForm.style.display = 'none';
+  // Alternar entre login e cadastro
+  toggleForm.addEventListener('click', () => {
+    if (loginForm.style.display === 'none') {
       loginForm.style.display = 'block';
+      registerForm.style.display = 'none';
       toggleForm.textContent = 'Criar uma conta';
+    } else {
+      loginForm.style.display = 'none';
+      registerForm.style.display = 'block';
+      toggleForm.textContent = 'Já tenho uma conta';
+    }
+  });
+
+  // Login
+  loginForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
+
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+
+    if (!usuario || email !== usuario.email) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Usuário não encontrado 😕',
+        text: 'Verifique o e-mail e tente novamente.',
+        confirmButtonColor: '#ff4d4d'
+      });
+    } else if (senha !== usuario.senha) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Senha incorreta ⚠️',
+        text: 'Tente novamente, guerreiro!',
+        confirmButtonColor: '#f39c12'
+      });
+    } else {
+      Swal.fire({
+        icon: 'success',
+        title: 'Login realizado com sucesso 🎉',
+        text: 'Bem-vindo de volta!',
+        confirmButtonColor: '#2ecc71',
+        timer: 2000,
+        showConfirmButton: false
+      }).then(() => {
+        localStorage.setItem('logado', 'true');
+        window.location.href = './Onepag.html'; // ou dashboard.html
+      });
+    }
+  });
+
+  // Cadastro
+  registerForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const newEmail = document.getElementById('newEmail').value;
+    const newSenha = document.getElementById('newSenha').value;
+
+    localStorage.setItem('usuario', JSON.stringify({ email: newEmail, senha: newSenha }));
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Conta criada com sucesso 🙌',
+      text: 'Agora faça login para continuar.',
+      confirmButtonColor: '#2ecc71'
     });
-  </script>
+
+    // Volta pro login
+    registerForm.style.display = 'none';
+    loginForm.style.display = 'block';
+    toggleForm.textContent = 'Criar uma conta';
+  });
+</script>
+
 </body>
 </html>
