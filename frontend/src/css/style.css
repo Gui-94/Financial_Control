@@ -41,7 +41,7 @@ input {
 button {
   width: 95%;
   padding: 10px;
-  background: #ff4d4d;
+  background: #62b12d;
   color: white;
   border: none;
   border-radius: 5px;
@@ -49,7 +49,7 @@ button {
 }
 
 button:hover {
-  background: #e63939;
+  background: #62b12d;
 }
 
 .toggle-link {
@@ -71,4 +71,17 @@ footer {
 
 h1, h2 {
   text-align: center;
+}
+
+/* ======= ATUALIZAÇÃO: h2 do card com imagem ======= */
+.card h2 {
+  display: flex;          /* coloca a imagem e o texto na mesma linha */
+  align-items: center;    /* alinha verticalmente a imagem com o texto */
+  justify-content: center; /* mantém centralizado dentro do card */
+  gap: 10px;              /* espaço entre a imagem e o texto */
+}
+
+.icone-gasto {
+  width: 70px;            /* tamanho da imagem */
+  height: 70px;
 }
