@@ -16,16 +16,61 @@ function corAleatoria(categoria) {
 
 let gastos = []; // Mantém todos os gastos no front
 
-// Listar gastos na tela
 function listarGastos() {
   listaGastos.innerHTML = '';
+
   gastos.forEach(g => {
     const li = document.createElement('li');
-    li.innerHTML = `💸 <b>${g.descricao}</b> - R$ ${g.valor.toFixed(2)} (${g.categoria || 'Sem categoria'}) - <i>${g.data}</i>`;
+
+    // Texto do gasto
+    const spanTexto = document.createElement('span');
+    spanTexto.innerHTML = `💸 <b>${g.descricao}</b> - R$ ${g.valor.toFixed(2)} (${g.categoria || 'Sem categoria'}) - <i>${g.data}</i>`;
+
+    // Container dos botões
+    const divBotoes = document.createElement('div');
+    divBotoes.classList.add('botoes-gasto');
+
+    // Botão Editar
+    const btnEditar = document.createElement('button');
+    btnEditar.textContent = '✏️';
+    btnEditar.classList.add('btn-editar');
+    btnEditar.onclick = () => {
+      const novaDescricao = prompt('Nova descrição:', g.descricao);
+      const novoValor = parseFloat(prompt('Novo valor:', g.valor));
+      const novaCategoria = prompt('Nova categoria:', g.categoria);
+      if (novaDescricao && !isNaN(novoValor)) {
+        g.descricao = novaDescricao;
+        g.valor = novoValor;
+        g.categoria = novaCategoria;
+        listarGastos();
+      }
+    };
+
+    // Botão Excluir
+    const btnExcluir = document.createElement('button');
+    btnExcluir.textContent = '🗑️';
+    btnExcluir.classList.add('btn-excluir');
+    btnExcluir.onclick = () => {
+      if (confirm(`Deseja excluir ${g.descricao}?`)) {
+        gastos = gastos.filter(item => item !== g);
+        listarGastos();
+      }
+    };
+
+    // Adiciona os botões ao container
+    divBotoes.appendChild(btnEditar);
+    divBotoes.appendChild(btnExcluir);
+
+    // Adiciona o texto e os botões ao li
+    li.appendChild(spanTexto);
+    li.appendChild(divBotoes);
+
     listaGastos.appendChild(li);
   });
+
   atualizarResumo();
 }
+
 
 const filtroMes = document.getElementById('filtroMes');
 const btnFiltrar = document.getElementById('btnFiltrar');
