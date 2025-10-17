@@ -96,6 +96,12 @@ input {
 }
 
 button {
+  width: 95%;
+  padding: 10px;
+  background: #383837;
+  color: white;
+  border: none;
+  border-radius: 5px;
   background: #62b12d;
   color: #fff;
   cursor: pointer;
@@ -106,7 +112,7 @@ button:hover {
 }
 
 .toggle-link {
-  color: #007bff;
+  color: #000000;
   cursor: pointer;
   text-decoration: underline;
   display: inline-block;
