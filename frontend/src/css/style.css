@@ -9,15 +9,15 @@ body {
 /* ======= Container principal ======= */
 .container {
   max-width: 800px;
-  margin: 20px auto; /* centraliza horizontalmente */
-  background: white;
+  margin: 300px auto; /* centraliza horizontalmente */
+  background: rgba(131, 131, 131, 0.966);
   padding: 30px;
-  border-radius: 10px;
+  border-radius: 20px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   text-align: left; /* volta o conteúdo para a esquerda */
 }
 
-.card {
+.preenchimento {
   background: #fff;
   padding: 20px;
   margin-bottom: 20px;
@@ -41,7 +41,7 @@ input {
 button {
   width: 95%;
   padding: 10px;
-  background: #62b12d;
+  background: #383837;
   color: white;
   border: none;
   border-radius: 5px;
@@ -53,7 +53,7 @@ button:hover {
 }
 
 .toggle-link {
-  color: #007bff;
+  color: #000000;
   cursor: pointer;
   text-decoration: underline;
   display: inline-block;
