@@ -7,64 +7,57 @@
   <link rel="stylesheet" href="./src/css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
 <body>
-  <div class="container">
-    <h1>💰 Controle de Gastos</h1>
-  
-    <div class="parent">
-      <div class="div1 card">
-        <h2>Adicionar Gasto</h2>
-        <form id="formGasto">
-          <input type="text" id="descricao" placeholder="Descrição" required>
-          <input type="number" step="0.01" id="valor" placeholder="Valor" required>
-          <input type="date" id="data" required>
-          <input type="text" id="categoria" placeholder="Categoria">
-          <button type="submit">Adicionar 💸</button>
-        </form>
-      </div>
-  
-      <div class="div2 card">
-        <h2>
-          <img src="./src/images/Resultado.gif" alt="ícone de gastos" class="icone-gasto">
-          Gastos do mês
-        </h2>
-        <ul id="listaGastos"></ul>
-      </div>
-  
-      <div class="div4 card">
-        <h2>Resumo do mês</h2>
-        <div id="resumo"></div>
-      </div>
-  
-      <div class="div10 card filtro">
-        <h2>
-          <img src="./src/images/calendario.gif" alt="Filtro de Gastos" class="Filtro-de-Gastos">
-        </h2>
-        <label for="filtroMes">Selecione o mês:</label>
-        <input type="month" id="filtroMes">
-        <button id="btnFiltrar">Buscar</button>
-      </div>
-  
-      <div class="div12 card">
-        <h2>Gráfico de Gastos por Categoria</h2>
-        <canvas id="graficoGastos"></canvas>
-      </div>
-    </div>
+
+<div class="container">
+  <h1>💰 Controle de Gastos</h1>
+
+  <div class="parent">
+
+    <section class="div1">
+      <h2>Adicionar Gasto</h2>
+      <form id="formGasto">
+        <input type="text" id="descricao" placeholder="Descrição" required>
+        <input type="number" step="0.01" id="valor" placeholder="Valor" required>
+        <input type="date" id="data" required>
+        <input type="text" id="categoria" placeholder="Categoria">
+        <button type="submit">Adicionar 💸</button>
+      </form>
+    </section>
+
+    <section class="div2">
+      <h2>Gastos do mês</h2>
+      <ul id="listaGastos"></ul>
+    </section>
+
+    <section class="div10">
+      <h2>Filtro de Gastos</h2>
+      <label for="filtroMes">Selecione o mês:</label>
+      <input type="month" id="filtroMes">
+      <button id="btnFiltrar">Buscar</button>
+    </section>
+
+    <section class="div4">
+      <h2>Gráfico de Gastos</h2>
+      <canvas id="graficoGastos"></canvas>
+    </section>
+
+    <section class="div12">
+      <h2>Resumo do mês</h2>
+      <div id="resumo"></div>
+    </section>
+
   </div>
-  
+</div>
 
-  <!-- RODAPÉ -->
-  <footer>
-    <p>© 2025 Controle de Gastos | Desenvolvido por <strong>Lucas Cabral e Guilherme Tavares</strong></p>
-    <div class="social">
-      <a href="https://github.com/Caabraldev" target="_blank">GitHub</a>
-      <a href="https://github.com/Gui-94" target="_blank">GitHub</a>
-    </div>
-  </footer>
+<footer>
+  <p>© 2025 Controle de Gastos | Desenvolvido por <strong>Lucas Cabral e Guilherme Tavares</strong></p>
+  <div class="social">
+    <a href="https://github.com/Caabraldev" target="_blank">GitHub</a>
+    <a href="https://github.com/Gui-94" target="_blank">GitHub</a>
+  </div>
+</footer>
 
-  <!-- SCRIPT PRINCIPAL -->
-  <script src="./src/js/script.js"></script>
+<script src="./src/js/script.js"></script>
 </body>
 </html>
-
