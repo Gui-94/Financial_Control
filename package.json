@@ -1,0 +1,22 @@
+{
+  "name": "fullstack-pack",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Starter fullstack simples com Vite + Express (dev local)",
+  "main": "server/server.js",
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c cyan,magenta \"cross-env PORT=3001 nodemon server/server.js\" \"vite --open\"",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "nodemon": "^3.1.7",
+    "vite": "^5.4.6"
+  }
+}
+
+

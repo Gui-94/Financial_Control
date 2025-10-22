@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Controle de Gastos</title>
-  <link rel="stylesheet" href="./src/css/style.css">
+  <link rel="stylesheet" href="../src/styles/style.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -81,7 +81,7 @@
         showConfirmButton: false
       }).then(() => {
         localStorage.setItem('logado', 'true');
-        window.location.href = './Onepag.html'; // ou dashboard.html
+        window.location.href = 'pages/onepag.html'; // ou dashboard.html
       });
     }
   });
@@ -110,15 +110,3 @@
 
 </body>
 </html>
-<div class="login-container">
-  <div class="login-box">
-    <h1><i class="fa-solid fa-wallet"></i> Login</h1>
-    <input type="email" placeholder="Email">
-    <input type="password" placeholder="Senha">
-    <button>Entrar</button>
-    <p><a href="#">Criar uma conta</a></p>
-  </div>
-</div>
-
-<!-- Importar ícones -->
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
