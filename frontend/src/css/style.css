@@ -7,12 +7,19 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #0d133a;
+  background: linear-gradient(
+      rgba(13, 19, 58, 0.9),
+      rgba(13, 19, 58, 0.9)
+    ),
+    url('https://images.unsplash.com/photo-1605902711622-cfb43c4437b5') center/cover no-repeat;
   color: #fff;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
+
 
 /* ======= CONTAINER PRINCIPAL ======= */
 .container {
@@ -184,45 +191,38 @@ footer .social a:hover {
   .div1, .div2, .div10, .div4, .div12 { width: 95%; margin-bottom: 15px; }
   input, button { width: 90%; }
 }
-/* ======= LOGIN PAGE ======= */
-.login-container {
-  min-height: 100vh; /* ocupa a tela inteira */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background: linear-gradient(
-      rgba(13, 19, 58, 0.9),
-      rgba(13, 19, 58, 0.9)
-    ),
-    url('https://images.unsplash.com/photo-1605902711622-cfb43c4437b5') center/cover no-repeat;
-  background-attachment: fixed;
-}
 
-.login-box {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 40px 50px;
-  border-radius: 15px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+footer {
   text-align: center;
-  width: 350px;
-  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  padding: 15px 0;
 }
 
-.login-box h1 {
-  font-size: 2.2rem;
-  margin-bottom: 20px;
+footer .links {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
 }
 
-.login-box h1 i {
-  color: #00e676; /* verde que remete a dinheiro 💸 */
+footer .github-link {
+  margin: 0 4px;
+  text-decoration: none;
 }
 
-.login-box input,
-.login-box button {
-  width: 100%;
+footer .icon {
+  width: 20px;
+  transition: 0.3s;
+  filter: brightness(1.2);
+}
+
+footer .icon:hover {
+  transform: scale(1.1);
+  filter: brightness(1.5);
+}
+
+footer a {
+  color: inherit;
 }
