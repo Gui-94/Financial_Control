@@ -40,28 +40,93 @@ function listarGastos(lista = gastos) {
       </div>
     `;
 
-    // Eventos Editar / Excluir
-    li.querySelector('.btn-editar').onclick = () => {
-      const novaDescricao = prompt('Nova descrição:', g.descricao);
-      const novoValor = parseFloat(prompt('Novo valor:', g.valor));
-      const novaCategoria = prompt('Nova categoria:', g.categoria);
-
-      if (novaDescricao && !isNaN(novoValor)) {
-        g.descricao = novaDescricao;
-        g.valor = novoValor;
-        g.categoria = novaCategoria;
+    li.querySelector('.btn-editar').onclick = async () => {
+      const { value: formValues } = await Swal.fire({
+        title: '✏️ Editar Gasto',
+        html: `
+          <input id="swal-descricao" class="swal2-input" placeholder="Descrição" value="${g.descricao}">
+          <input id="swal-valor" class="swal2-input" type="number" step="0.01" placeholder="Valor" value="${g.valor}">
+          <input id="swal-categoria" class="swal2-input" placeholder="Categoria" value="${g.categoria || ''}">
+        `,
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: 'Salvar 💾',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#27ae60',
+        cancelButtonColor: '#c0392b',
+        background: '#FFDAB3', // laranja suave da imagem
+        customClass: {
+          popup: 'rounded-alert'
+        },
+        preConfirm: () => {
+          return {
+            descricao: document.getElementById('swal-descricao').value,
+            valor: parseFloat(document.getElementById('swal-valor').value),
+            categoria: document.getElementById('swal-categoria').value
+          };
+        }
+      });
+    
+      if (formValues) {
+        if (!formValues.descricao || isNaN(formValues.valor)) {
+          Swal.fire({ 
+            icon: 'error', 
+            title: 'Preencha todos os campos corretamente!',
+            background: '#FFDAB3',
+            customClass: { popup: 'rounded-alert' }
+          });
+          return;
+        }
+    
+        g.descricao = formValues.descricao;
+        g.valor = formValues.valor;
+        g.categoria = formValues.categoria;
+    
         salvarGastos();
         listarGastos();
+    
+        Swal.fire({ 
+          icon: 'success', 
+          title: 'Gasto atualizado com sucesso!', 
+          timer: 1500, 
+          showConfirmButton: false,
+          background: '#FFDAB3',
+          customClass: { popup: 'rounded-alert' }
+        });
       }
     };
-
-    li.querySelector('.btn-excluir').onclick = () => {
-      if (confirm(`Deseja excluir ${g.descricao}?`)) {
+    
+    li.querySelector('.btn-excluir').onclick = async () => {
+      const resultado = await Swal.fire({
+        title: `Excluir "${g.descricao}"?`,
+        text: "Essa ação não poderá ser desfeita!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#e74c3c",
+        cancelButtonColor: "#7f8c8d",
+        confirmButtonText: "Sim, excluir 🗑️",
+        cancelButtonText: "Cancelar",
+        background: '#FF8A80', // vermelho puxado da imagem
+        customClass: { popup: 'rounded-alert' }
+      });
+    
+      if (resultado.isConfirmed) {
         gastos = gastos.filter(item => item !== g);
         salvarGastos();
         listarGastos();
+    
+        Swal.fire({
+          icon: "success",
+          title: "Gasto excluído!",
+          showConfirmButton: false,
+          timer: 1500,
+          background: '#FF8A80',
+          customClass: { popup: 'rounded-alert' }
+        });
       }
     };
+    
+    
 
     listaGastos.appendChild(li);
   });
@@ -140,3 +205,4 @@ btnFiltrar.addEventListener('click', () => {
 
 // ====== INICIALIZAÇÃO ======
 listarGastos();
+

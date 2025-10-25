@@ -192,3 +192,6 @@ footer .social a:hover {
   .div1, .div2, .div10, .div4, .div12 { width: 95%; margin-bottom: 15px; }
   input, button { width: 90%; }
 }
+.rounded-alert {
+  border-radius: 20px !important;
+}
