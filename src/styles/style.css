@@ -149,23 +149,42 @@ canvas {
   padding: 10px;
 }
 
-/* ======= FOOTER ======= */
+
 footer {
   text-align: center;
-  font-size: 14px;
-  color: #aaa;
-  margin-top: 20px;
+  font-size: 13px; 
+  color: #999;
+  padding: 8px 0;
+  background: transparent; 
+}
+
+footer .links {
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  gap: 6px;
+}
+
+footer .github-link img.icon {
+  width: 24px;    
+  height: 24px;   
+  margin: 0 4px;
+  transition: transform 0.2s ease;
+}
+
+footer .github-link img.icon:hover {
+  transform: scale(1.2); 
 }
 
 footer .social a {
-  color: #aaa;
-  margin: 0 10px;
+  color: #999;
+  margin: 0 6px;
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 footer .social a:hover {
   color: #fff;
-  text-decoration: underline;
 }
 
 /* ======= RESPONSIVIDADE ======= */
