@@ -4,12 +4,14 @@
   "framework": "vite",
   "rewrites": [
     {
+      "source": "/login",
+
+      "destination": "/pages/onepag.html"
+    },
+
+    {
       "source": "/",
       "destination": "/pages/index.html"
-    },
-    {
-      "source": "/pages/onepag",
-      "destination": "/pages/onepag.html"
     }
   ],
   "headers": [
