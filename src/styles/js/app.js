@@ -48,9 +48,45 @@ function atualizarResumo(lista = gastos) {
 
   chart = new Chart(ctx, {
     type: 'pie',
-    data: { labels, datasets: [{ data: dataValues, backgroundColor: backgroundColors, borderColor: '#fff', borderWidth: 2 }] },
-    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
-  });
+    data: {
+      labels,
+      datasets: [
+        {
+          data: dataValues,
+          backgroundColor: backgroundColors,
+          borderColor: '#fff',
+          borderWidth: 2
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            color: '#fff', // cor da fonte
+            font: {
+              size: 16,    // tamanho da fonte da legenda
+              weight: 'bold' // negrito
+            }
+          }
+        },
+        tooltip: {
+          bodyFont: {
+            size: 16 // tamanho da fonte do corpo do tooltip
+          },
+          titleFont: {
+            size: 18 // tamanho do título no tooltip
+          }
+        }
+      },
+      animation: {
+        animateRotate: true,
+        animateScale: true
+      }
+    }
+  });  
 }
 
 function listarGastos(lista = gastos) {
