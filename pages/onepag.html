@@ -14,15 +14,12 @@
 </head>
 
 <body>
-
   <div class="container">
-
-    <div id="money-container"></div>
-
     <h1>💰 Controle de Gastos</h1>
 
     <div class="parent">
 
+      <!-- Adicionar Gasto -->
       <section class="div1">
         <h2>Adicionar Gasto</h2>
         <form id="formGasto">
@@ -34,11 +31,13 @@
         </form>
       </section>
 
+      <!-- Gastos do mês -->
       <section class="div2">
         <h2>Gastos do mês</h2>
         <ul id="listaGastos"></ul>
       </section>
 
+      <!-- Filtro de Gastos -->
       <section class="div10">
         <h2>Filtro de Gastos</h2>
         <label for="filtroMes">Selecione o mês:</label>
@@ -46,11 +45,13 @@
         <button id="btnFiltrar">Buscar</button>
       </section>
 
+      <!-- Gráfico -->
       <section class="div4">
         <h2>Gráfico de Gastos</h2>
         <canvas id="graficoGastos"></canvas>
       </section>
 
+      <!-- Resumo -->
       <section class="div12">
         <h2>Resumo do mês</h2>
         <div id="resumo"></div>
@@ -62,16 +63,15 @@
   <footer>
     <div class="links">
       <p>© 2025 Controle de Gastos | Desenvolvido por <strong>Lucas Cabral e Guilherme Tavares</strong></p>
-        <a href="https://github.com/Caabraldev" target="_blank" class="github-link">
-          <img src="../images/icone git.png" alt="GitHub Lucas Cabral" class="icon">
-        </a>
-        <a href="https://github.com/Gui-94" target="_blank" class="github-link">
-          <img src="../images/icone git.png" alt="GitHub Guilherme Tavares" class="icon">
-        </a>
+      <a href="https://github.com/Caabraldev" target="_blank" class="github-link">
+        <img src="../images/icone git.png" alt="GitHub Lucas Cabral" class="icon">
+      </a>
+      <a href="https://github.com/Gui-94" target="_blank" class="github-link">
+        <img src="../images/icone git.png" alt="GitHub Guilherme Tavares" class="icon">
+      </a>
     </div>
   </footer>
 
   <script type="module" src="../src/styles/js/app.js"></script>
-
 </body>
 </html>

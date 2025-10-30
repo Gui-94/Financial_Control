@@ -7,11 +7,8 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(
-      rgba(13, 19, 58, 0.9),
-      rgba(13, 19, 58, 0.9)
-    ),
-    url('https://images.unsplash.com/photo-1605902711622-cfb43c4437b5') center/cover no-repeat;
+  background: linear-gradient(rgba(13, 19, 58, 0.9), rgba(13, 19, 58, 0.9)),
+              url('https://images.unsplash.com/photo-1605902711622-cfb43c4437b5') center/cover no-repeat;
   color: #fff;
   min-height: 100vh;
   display: flex;
@@ -19,7 +16,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-
 
 /* ======= CONTAINER PRINCIPAL ======= */
 .container {
@@ -38,14 +34,12 @@ body {
 h1 {
   font-size: 3.5rem;
   margin-bottom: 25px;
-  color: #fff;
   text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
 }
 
 h2 {
   font-size: 1.5rem;
   margin-bottom: 15px;
-  color: #fff;
   opacity: 0.9;
   text-align: center;
 }
@@ -149,7 +143,7 @@ canvas {
   padding: 10px;
 }
 
-
+/* ======= FOOTER ======= */
 footer {
   text-align: center;
   font-size: 13px; 
@@ -176,15 +170,48 @@ footer .github-link img.icon:hover {
   transform: scale(1.2); 
 }
 
-footer .social a {
-  color: #999;
-  margin: 0 6px;
-  text-decoration: none;
-  transition: color 0.2s ease;
+/* ======= ALERTAS SWEETALERT2 ======= */
+.rounded-alert {
+  border-radius: 20px !important;
 }
 
-footer .social a:hover {
-  color: #fff;
+/* ======= MENU DE TRÊS PONTINHOS ======= */
+.menu-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.menu-opcoes {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  padding: 5px;
+  z-index: 10;
+  min-width: 120px;
+  white-space: nowrap;
+}
+
+.menu-wrapper.active .menu-opcoes {
+  display: block;
+}
+
+.menu-opcoes button {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.menu-opcoes button:hover {
+  background: #f0f0f0;
+  border-radius: 5px;
 }
 
 /* ======= RESPONSIVIDADE ======= */
@@ -210,7 +237,4 @@ footer .social a:hover {
   .parent { display: flex; flex-direction: column; }
   .div1, .div2, .div10, .div4, .div12 { width: 95%; margin-bottom: 15px; }
   input, button { width: 90%; }
-}
-.rounded-alert {
-  border-radius: 20px !important;
 }

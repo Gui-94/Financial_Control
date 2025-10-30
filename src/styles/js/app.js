@@ -18,12 +18,39 @@ function corAleatoria(categoria) {
 }
 
 // ====== DADOS ======
-// Carrega do localStorage ou inicia vazio
 let gastos = JSON.parse(localStorage.getItem('gastos')) || [];
 
 // ====== FUNÇÕES ======
 function salvarGastos() {
   localStorage.setItem('gastos', JSON.stringify(gastos));
+}
+
+function atualizarResumo(lista = gastos) {
+  const porCategoria = {};
+  lista.forEach(g => {
+    const cat = g.categoria || 'Sem categoria';
+    if (!porCategoria[cat]) porCategoria[cat] = 0;
+    porCategoria[cat] += g.valor;
+  });
+
+  const total = lista.reduce((acc, g) => acc + g.valor, 0);
+
+  resumoDiv.innerHTML = `
+    <p>Total: <b>R$ ${total.toFixed(2)}</b></p>
+    ${Object.entries(porCategoria).map(([cat, val]) => `<p>💡 ${cat}: R$ ${val.toFixed(2)}</p>`).join('')}
+  `;
+
+  const labels = Object.keys(porCategoria);
+  const dataValues = Object.values(porCategoria);
+  const backgroundColors = labels.map(corAleatoria);
+
+  if (chart) chart.destroy();
+
+  chart = new Chart(ctx, {
+    type: 'pie',
+    data: { labels, datasets: [{ data: dataValues, backgroundColor: backgroundColors, borderColor: '#fff', borderWidth: 2 }] },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+  });
 }
 
 function listarGastos(lista = gastos) {
@@ -34,99 +61,29 @@ function listarGastos(lista = gastos) {
 
     li.innerHTML = `
       💸 <b>${g.descricao}</b> - R$ ${g.valor.toFixed(2)} (${g.categoria || 'Sem categoria'}) - <i>${g.data}</i>
-      <div class="botoes-gasto">
-        <button class="btn-editar">✏️</button>
-        <button class="btn-excluir">🗑️</button>
+      <div class="menu-wrapper">
+        <button class="menu-btn">⋮</button>
+        <div class="menu-opcoes">
+          <button class="btn-editar">✏️</button>
+          <button class="btn-excluir">🗑️</button>
+        </div>
       </div>
     `;
 
-    li.querySelector('.btn-editar').onclick = async () => {
-      const { value: formValues } = await Swal.fire({
-        title: '✏️ Editar Gasto',
-        html: `
-          <input id="swal-descricao" class="swal2-input" placeholder="Descrição" value="${g.descricao}">
-          <input id="swal-valor" class="swal2-input" type="number" step="0.01" placeholder="Valor" value="${g.valor}">
-          <input id="swal-categoria" class="swal2-input" placeholder="Categoria" value="${g.categoria || ''}">
-        `,
-        focusConfirm: false,
-        showCancelButton: true,
-        confirmButtonText: 'Salvar 💾',
-        cancelButtonText: 'Cancelar',
-        confirmButtonColor: '#27ae60',
-        cancelButtonColor: '#c0392b',
-        background: '#FFDAB3', // laranja suave da imagem
-        customClass: {
-          popup: 'rounded-alert'
-        },
-        preConfirm: () => {
-          return {
-            descricao: document.getElementById('swal-descricao').value,
-            valor: parseFloat(document.getElementById('swal-valor').value),
-            categoria: document.getElementById('swal-categoria').value
-          };
-        }
-      });
-    
-      if (formValues) {
-        if (!formValues.descricao || isNaN(formValues.valor)) {
-          Swal.fire({ 
-            icon: 'error', 
-            title: 'Preencha todos os campos corretamente!',
-            background: '#FFDAB3',
-            customClass: { popup: 'rounded-alert' }
-          });
-          return;
-        }
-    
-        g.descricao = formValues.descricao;
-        g.valor = formValues.valor;
-        g.categoria = formValues.categoria;
-    
-        salvarGastos();
-        listarGastos();
-    
-        Swal.fire({ 
-          icon: 'success', 
-          title: 'Gasto atualizado com sucesso!', 
-          timer: 1500, 
-          showConfirmButton: false,
-          background: '#FFDAB3',
-          customClass: { popup: 'rounded-alert' }
-        });
-      }
-    };
-    
-    li.querySelector('.btn-excluir').onclick = async () => {
-      const resultado = await Swal.fire({
-        title: `Excluir "${g.descricao}"?`,
-        text: "Essa ação não poderá ser desfeita!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#e74c3c",
-        cancelButtonColor: "#7f8c8d",
-        confirmButtonText: "Sim, excluir 🗑️",
-        cancelButtonText: "Cancelar",
-        background: '#FF8A80', // vermelho puxado da imagem
-        customClass: { popup: 'rounded-alert' }
-      });
-    
-      if (resultado.isConfirmed) {
-        gastos = gastos.filter(item => item !== g);
-        salvarGastos();
-        listarGastos();
-    
-        Swal.fire({
-          icon: "success",
-          title: "Gasto excluído!",
-          showConfirmButton: false,
-          timer: 1500,
-          background: '#FF8A80',
-          customClass: { popup: 'rounded-alert' }
-        });
-      }
-    };
-    
-    
+    const menuWrapper = li.querySelector('.menu-wrapper');
+    const menuBtn = li.querySelector('.menu-btn');
+
+    // Toggle menu
+    menuBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      menuWrapper.classList.toggle('active');
+    });
+
+    // Editar
+    li.querySelector('.btn-editar').onclick = () => editarGasto(g);
+
+    // Excluir
+    li.querySelector('.btn-excluir').onclick = () => excluirGasto(g);
 
     listaGastos.appendChild(li);
   });
@@ -134,40 +91,73 @@ function listarGastos(lista = gastos) {
   atualizarResumo(lista);
 }
 
-// Atualiza resumo e gráfico
-function atualizarResumo(lista = gastos) {
-  // Agrupa por categoria
-  const porCategoria = {};
-  lista.forEach(g => {
-    const cat = g.categoria || 'Sem categoria';
-    if (!porCategoria[cat]) porCategoria[cat] = 0;
-    porCategoria[cat] += g.valor;
+// Fecha menus clicando fora
+document.addEventListener('click', () => {
+  document.querySelectorAll('.menu-wrapper').forEach(menu => menu.classList.remove('active'));
+});
+
+// ====== CRUD ======
+async function editarGasto(g) {
+  const { value: formValues } = await Swal.fire({
+    title: '✏️ Editar Gasto',
+    html: `
+      <input id="swal-descricao" class="swal2-input" placeholder="Descrição" value="${g.descricao}">
+      <input id="swal-valor" class="swal2-input" type="number" step="0.01" placeholder="Valor" value="${g.valor}">
+      <input id="swal-categoria" class="swal2-input" placeholder="Categoria" value="${g.categoria || ''}">
+    `,
+    focusConfirm: false,
+    showCancelButton: true,
+    confirmButtonText: 'Salvar 💾',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#27ae60',
+    cancelButtonColor: '#c0392b',
+    background: '#FFDAB3',
+    customClass: { popup: 'rounded-alert' },
+    preConfirm: () => ({
+      descricao: document.getElementById('swal-descricao').value,
+      valor: parseFloat(document.getElementById('swal-valor').value),
+      categoria: document.getElementById('swal-categoria').value
+    })
   });
 
-  // Total
-  const total = lista.reduce((acc, g) => acc + g.valor, 0);
+  if (formValues) {
+    if (!formValues.descricao || isNaN(formValues.valor)) {
+      Swal.fire({ icon: 'error', title: 'Preencha todos os campos!', background: '#FFDAB3', customClass: { popup: 'rounded-alert' } });
+      return;
+    }
 
-  resumoDiv.innerHTML = `
-    <p>Total: <b>R$ ${total.toFixed(2)}</b></p>
-    ${Object.entries(porCategoria).map(([cat, val]) => `<p>💡 ${cat}: R$ ${val.toFixed(2)}</p>`).join('')}
-  `;
+    g.descricao = formValues.descricao;
+    g.valor = formValues.valor;
+    g.categoria = formValues.categoria;
+    salvarGastos();
+    listarGastos();
+    Swal.fire({ icon: 'success', title: 'Gasto atualizado!', timer: 1500, showConfirmButton: false, background: '#FFDAB3', customClass: { popup: 'rounded-alert' } });
+  }
+}
 
-  // Atualiza gráfico
-  const labels = Object.keys(porCategoria);
-  const dataValues = Object.values(porCategoria);
-  const backgroundColors = labels.map(corAleatoria);
-
-  if (chart) chart.destroy();
-
-  chart = new Chart(ctx, {
-    type: 'pie',
-    data: { labels, datasets: [{ data: dataValues, backgroundColor: backgroundColors, borderColor: '#fff', borderWidth: 2 }] },
-    options: { responsive: true, plugins: { legend: { position: 'bottom' } }, animation: { animateRotate: true, animateScale: true } }
+async function excluirGasto(g) {
+  const resultado = await Swal.fire({
+    title: `Excluir "${g.descricao}"?`,
+    text: "Essa ação não poderá ser desfeita!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#e74c3c",
+    cancelButtonColor: "#7f8c8d",
+    confirmButtonText: "Sim, excluir 🗑️",
+    cancelButtonText: "Cancelar",
+    background: '#FF8A80',
+    customClass: { popup: 'rounded-alert' }
   });
+
+  if (resultado.isConfirmed) {
+    gastos = gastos.filter(item => item !== g);
+    salvarGastos();
+    listarGastos();
+    Swal.fire({ icon: "success", title: "Gasto excluído!", showConfirmButton: false, timer: 1500, background: '#FF8A80', customClass: { popup: 'rounded-alert' } });
+  }
 }
 
 // ====== EVENTOS ======
-
 // Adicionar gasto
 form.addEventListener('submit', e => {
   e.preventDefault();
@@ -177,7 +167,6 @@ form.addEventListener('submit', e => {
     data: document.getElementById('data').value,
     categoria: document.getElementById('categoria').value
   };
-
   gastos.push(novoGasto);
   salvarGastos();
   form.reset();
@@ -186,23 +175,14 @@ form.addEventListener('submit', e => {
 
 // Filtrar por mês
 btnFiltrar.addEventListener('click', () => {
-  const mesSelecionado = filtroMes.value; // ex: "2025-10"
-  if (!mesSelecionado) {
-    Swal.fire({ icon: 'info', title: 'Selecione um mês!', confirmButtonColor: '#3498db' });
-    return;
-  }
+  const mesSelecionado = filtroMes.value;
+  if (!mesSelecionado) return Swal.fire({ icon: 'info', title: 'Selecione um mês!', confirmButtonColor: '#3498db' });
 
-  // Filtro direto pela string da data
   const gastosFiltrados = gastos.filter(g => g.data.startsWith(mesSelecionado));
-
-  if (gastosFiltrados.length === 0) {
-    Swal.fire({ icon: 'info', title: 'Nenhum gasto encontrado nesse mês!', confirmButtonColor: '#2ecc71' });
-    return;
-  }
+  if (gastosFiltrados.length === 0) return Swal.fire({ icon: 'info', title: 'Nenhum gasto encontrado!', confirmButtonColor: '#2ecc71' });
 
   listarGastos(gastosFiltrados);
 });
 
 // ====== INICIALIZAÇÃO ======
 listarGastos();
-
