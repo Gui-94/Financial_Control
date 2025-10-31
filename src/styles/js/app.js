@@ -100,8 +100,8 @@ function listarGastos(lista = gastos) {
       <div class="menu-wrapper">
         <button class="menu-btn">⋮</button>
         <div class="menu-opcoes">
-          <button class="btn-editar">✏️</button>
-          <button class="btn-excluir">🗑️</button>
+          <button class="btn-editar">🖋️</button>
+          <button class="btn-excluir">🚮</button>
         </div>
       </div>
     `;
@@ -135,7 +135,7 @@ document.addEventListener('click', () => {
 // ====== CRUD ======
 async function editarGasto(g) {
   const { value: formValues } = await Swal.fire({
-    title: '✏️ Editar Gasto',
+    title: '🖋️ Editar Gasto',
     html: `
       <input id="swal-descricao" class="swal2-input" placeholder="Descrição" value="${g.descricao}">
       <input id="swal-valor" class="swal2-input" type="number" step="0.01" placeholder="Valor" value="${g.valor}">
@@ -143,11 +143,11 @@ async function editarGasto(g) {
     `,
     focusConfirm: false,
     showCancelButton: true,
-    confirmButtonText: 'Salvar 💾',
+    confirmButtonText: 'Salvar ',
     cancelButtonText: 'Cancelar',
     confirmButtonColor: '#27ae60',
     cancelButtonColor: '#c0392b',
-    background: '#FFDAB3',
+    background: '#00000000',
     customClass: { popup: 'rounded-alert' },
     preConfirm: () => ({
       descricao: document.getElementById('swal-descricao').value,
@@ -179,9 +179,9 @@ async function excluirGasto(g) {
     showCancelButton: true,
     confirmButtonColor: "#e74c3c",
     cancelButtonColor: "#7f8c8d",
-    confirmButtonText: "Sim, excluir 🗑️",
+    confirmButtonText: "Sim, excluir 🚮",
     cancelButtonText: "Cancelar",
-    background: '#FF8A80',
+    background: '#00000000',
     customClass: { popup: 'rounded-alert' }
   });
 
