@@ -18,36 +18,33 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Login
-  // Login (versão corrigida)
-loginForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const email = document.getElementById('email').value.trim();
-  const senha = document.getElementById('senha').value;
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const senha = document.getElementById('senha').value;
 
-  const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-  const usuario = usuarios.find(u => u.email === email);
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
 
-  if (!usuario) {
-    return showAlert('error', 'Usuário não encontrado 😕', 'Verifique o e-mail e tente novamente.', '#ff4d4d');
-  }
+    if (!usuario || usuario.email !== email) {
+      return showAlert('error', 'Usuário não encontrado 😕', 'Verifique o e-mail e tente novamente.', '#ff4d4d');
+    }
 
-  if (usuario.senha !== senha) {
-    return showAlert('warning', 'Senha incorreta ⚠️', 'Tente novamente!', '#f39c12');
-  }
+    if (usuario.senha !== senha) {
+      return showAlert('warning', 'Senha incorreta ⚠️', 'Tente novamente!', '#f39c12');
+    }
 
-  Swal.fire({
-    icon: 'success',
-    title: 'Login realizado 🎉',
-    text: 'Bem-vindo de volta!',
-    confirmButtonColor: '#2ecc71',
-    timer: 1500,
-    showConfirmButton: false
-  }).then(() => {
-    localStorage.setItem('logado', 'true');
-    window.location.href = 'pages/onepag.html';
+    Swal.fire({
+      icon: 'success',
+      title: 'Login realizado 🎉',
+      text: 'Bem-vindo de volta!',
+      confirmButtonColor: '#2ecc71',
+      timer: 1500,
+      showConfirmButton: false
+    }).then(() => {
+      localStorage.setItem('logado', 'true');
+      window.location.href = 'pages/onepag.html';
+    });
   });
-});
-
 
   // Cadastro
  // Cadastro (versão corrigida)
