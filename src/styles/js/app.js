@@ -46,48 +46,76 @@ function atualizarResumo(lista = gastos) {
 
   if (chart) chart.destroy();
 
-  chart = new Chart(ctx, {
-    type: 'pie',
-    data: {
-      labels,
-      datasets: [
-        {
-          data: dataValues,
-          backgroundColor: backgroundColors,
-          borderColor: '#fff',
-          borderWidth: 2
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: {
-            color: '#fff', // cor da fonte
-            font: {
-              size: 16,    // tamanho da fonte da legenda
-              weight: 'bold' // negrito
-            }
-          }
-        },
-        tooltip: {
-          bodyFont: {
-            size: 16 // tamanho da fonte do corpo do tooltip
+chart = new Chart(ctx, {
+  type: 'pie',
+  data: {
+    labels,
+    datasets: [
+      {
+        data: dataValues,
+        backgroundColor: backgroundColors,
+        borderColor: '#fff',
+        borderWidth: 2
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          color: '#fff', // ✅ texto branco
+          font: {
+            size: 20,        // tamanho confortável pra leitura
+            weight: 'normal', // ✅ remove negrito
+            family: 'Arial, sans-serif' // ✅ fonte mais limpa
           },
-          titleFont: {
-            size: 18 // tamanho do título no tooltip
+          generateLabels(chart) {
+            const dataset = chart.data.datasets[0];
+            return chart.data.labels.map((label, i) => {
+              const text = label.charAt(0).toUpperCase() + label.slice(1).toLowerCase();
+              const style = dataset.backgroundColor[i];
+          
+              return {
+                text,
+                fillStyle: style,   // cor do quadradinho
+                fontColor: style,   // 🟢 força o texto da mesma cor da fatia
+                strokeStyle: '#fff',
+                lineWidth: 1,
+                hidden: isNaN(dataset.data[i]) || dataset.data[i] === null,
+                index: i
+              };
+            });
           }
+          
         }
       },
-      animation: {
-        animateRotate: true,
-        animateScale: true
+      tooltip: {
+        backgroundColor: 'rgba(238, 225, 225, 0.85)', // fundo escuro
+        bodyColor: '#ffffff',   // ✅ texto branco
+        titleColor: '#ffffff',  // ✅ título branco
+        bodyFont: {
+          size: 16,
+          weight: 'normal', // ✅ sem negrito
+          family: 'Arial, sans-serif'
+        },
+        titleFont: {
+          size: 18,
+          weight: 'normal', // ✅ sem negrito
+          family: 'Arial, sans-serif'
+        }
       }
+    },
+    animation: {
+      animateRotate: true,
+      animateScale: true
     }
-  });  
-}
+  }
+});
+
+  
+}  
 
 function listarGastos(lista = gastos) {
   listaGastos.innerHTML = '';
@@ -222,3 +250,4 @@ btnFiltrar.addEventListener('click', () => {
 
 // ====== INICIALIZAÇÃO ======
 listarGastos();
+
