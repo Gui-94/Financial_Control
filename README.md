@@ -1,77 +1,61 @@
-# 💰 Controle de Gastos
+# 💰 Financial Control Web
 
-Sistema simples de **controle de gastos pessoais**, desenvolvido com **Node.js**, **SQLite** e **JavaScript puro**.  
-O objetivo é registrar, listar e gerenciar despesas de forma prática e intuitiva.
+Um aplicativo simples e moderno de **controle financeiro pessoal**, desenvolvido com **HTML, CSS e JavaScript puro**.  
+Permite gerenciar gastos, visualizar estatísticas e acompanhar o saldo de forma intuitiva — tudo direto no navegador.
 
 ---
 
-## 🧩 Estrutura do Projeto
+## 🧠 Funcionalidades
 
+✅ Adicionar e remover transações  
+✅ Cálculo automático de saldo total  
+✅ Gráfico interativo com **Chart.js**  
+✅ Interface escura (modo dark elegante)  
+✅ Armazenamento local via **LocalStorage**  
+✅ Totalmente responsivo (desktop e mobile)
 
-📁 backend
-┣ 📁 models
-┃ ┗ 📄 Gasto.js → Modelo de dados dos gastos
-┣ 📁 routes
-┃ ┣ 📄 server.js → Configuração do servidor e rotas da API
-┃ ┗ 📄 database.sqlite → Banco de dados local (SQLite)
-┗ 📄 package.json → Dependências e scripts do backend
+---
 
-📁 frontend
-┣ 📁 css
-┃ ┗ 📄 style.css → Estilos da interface
-┣ 📁 js
-┃ ┣ 📄 script.js → Lógica e interações da interface
-┃ ┗ 📁 img → Imagens utilizadas no site
-┗ 📄 index.html → Página principal (frontend)
+## 🖼️ Demonstração
 
-📄 .gitignore → Arquivos ignorados pelo Git
-📄 README.md → Documentação do projeto
+🔗 [Acesse o projeto na Vercel](https://financial-control-self.vercel.app/)  
 
-yaml
-Copiar código
+![Prévia do Projeto](./images/preview.png)
+
+---
+
+## ⚙️ Estrutura do Projeto
+
 
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+## 🚀 Como Executar Localmente
 
-- 🟢 **Node.js** – Ambiente de execução JavaScript no backend  
-- ⚙️ **Express.js** – Framework para criação do servidor e rotas  
-- 🗄️ **SQLite** – Banco de dados leve e local  
-- 🎨 **HTML5, CSS3, JavaScript** – Desenvolvimento do frontend  
-
----
-
-## ⚙️ Como Executar o Projeto
-
-1. **Clone o repositório**
+1. Clone o repositório:
    ```bash
-   git clone https://github.com/SeuUsuario/NomeDoRepositorio.git
+   git clone https://github.com/teu-usuario/financial-control.git
 
-Acesse a pasta do backend:
-cd backend
+🧩 Tecnologias Utilizadas
 
-Instale as dependências:
-npm install
+HTML5 — Estrutura do projeto
 
-Inicie o servidor:
-node server.js
+CSS3 — Estilos e design responsivo
 
-Abra o frontend
+JavaScript (ES6) — Lógica e interatividade
 
--Vá até a pasta frontend
--Abra o arquivo index.html no navegador
--(ou use a extensão Live Server no VSCode)
+Chart.js — Gráficos dinâmicos
 
-🧠 Funcionalidades
+Vite.js — Build rápido e eficiente
 
-✅ Adicionar novos gastos
-✅ Listar todos os gastos registrados
-✅ Armazenar dados localmente com SQLite
-✅ Interface simples e direta
+Vercel — Deploy automático
 
-👨‍💻 Autores
+🎯 Objetivo do Projeto
 
- Guilherme Tavares e Lucas Cabral
+O objetivo é treinar boas práticas de front-end, manipulação de DOM, organização de código e integração com bibliotecas externas — com um design moderno e intuitivo.
 
-🚀 Sempre buscando aprender e evoluir
+📸 Autores
+
+Guilherme Tavares & Lucas Cabral
+💼 Estudantes de programação web
+🚀 Aprendendo todos os dias para se tornar um grande desenvolvedor!
