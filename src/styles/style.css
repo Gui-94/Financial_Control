@@ -20,7 +20,7 @@ body {
 
 /* ======= CONTAINER PRINCIPAL ======= */
 .container {
-  width: 100%;
+  width: 27%;
   max-width: none; /* 🔓 remove a limitação */
   margin: 40;
   padding: 40px;
@@ -248,15 +248,13 @@ footer .github-link img.icon:hover {
   input, button { width: 90%; }
 }
 
-/* ✅ força o texto da legenda e tooltip a ficarem normais e brancos */
-.chartjs-legend li span,
-.chartjs-legend li,
-.chartjs-legend-label {
+/* Deixa o texto da legenda branco por padrão */
+.chartjs-legend text {
+  fill: #fff !important;
   font-weight: normal !important;
-  color: #fff !important;
-  font-family: Arial, sans-serif !important;
 }
 
-canvas {
-  color: #fff !important;
+/* Faz o texto da legenda pegar a cor da fatia automaticamente */
+.chartjs-legend li span {
+  color: inherit !important;
 }
