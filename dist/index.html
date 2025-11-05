@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Controle de Gastos</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" crossorigin src="/assets/index-jGeJgaxN.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+</head>
+<body>
+  <div class="container">
+    <h1>🔐 Login</h1>
+
+    <!-- Formulário de Login -->
+    <form id="loginForm" class="card">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="senha" placeholder="Senha" required>
+      <button type="submit">Entrar</button>
+    </form>
+
+    <!-- Formulário de Cadastro -->
+    <form id="registerForm" class="card" style="display:none;">
+      <input type="email" id="newEmail" placeholder="Novo Email" required>
+      <input type="password" id="newSenha" placeholder="Nova Senha" required>
+      <button type="submit">Criar Conta</button>
+    </form>
+
+    <p class="toggle-link" id="toggleForm">Criar uma conta</p>
+  </div>
+
+</body>
+</html>

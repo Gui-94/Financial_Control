@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Controle de Gastos</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" crossorigin src="/assets/onepag-Djttk7ZA.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+</head>
+<body>
+  <div class="container">
+    <h1>💰 Controle de Gastos</h1>
+
+    <div class="parent">
+
+      <!-- Adicionar Gasto -->
+      <section class="div1">
+        <h2>Adicionar Gasto</h2>
+        <form id="formGasto">
+          <input type="text" id="descricao" placeholder="Descrição" required>
+          <input type="number" step="0.01" id="valor" placeholder="Valor" required>
+          <input type="date" id="data" required>
+          <input type="text" id="categoria" placeholder="Categoria">
+          <button type="submit">Adicionar 💸</button>
+        </form>
+      </section>
+
+      <!-- Gastos do mês -->
+      <section class="div2">
+        <h2>Gastos do mês</h2>
+        <ul id="listaGastos"></ul>
+      </section>
+
+      <!-- Filtro -->
+      <section class="div10">
+        <h2>Filtro de Gastos</h2>
+        <label for="filtroMes">Selecione o mês:</label>
+        <input type="month" id="filtroMes">
+        <button id="btnFiltrar">Buscar</button>
+      </section>
+
+      <!-- Gráfico -->
+      <section class="div4">
+        <h2>Gráfico de Gastos</h2>
+        <canvas id="graficoGastos"></canvas>
+      </section>
+
+      <!-- Resumo -->
+      <section class="div12">
+        <h2>Resumo do mês</h2>
+        <div id="resumo"></div>
+      </section>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="links">
+      <p>© 2025 Controle de Gastos | Desenvolvido por <strong>Lucas Cabral e Guilherme Tavares</strong></p>
+      <a href="https://github.com/Caabraldev" target="_blank" class="github-link">
+        <img src="images/icone-git.png" alt="GitHub Lucas Cabral" class="icon">
+      </a>
+      <a href="https://github.com/Gui-94" target="_blank" class="github-link">
+        <img src="images/icone-git.png" alt="GitHub Guilherme Tavares" class="icon">
+      </a>
+    </div>
+  </footer>
+
+</body>
+</html>

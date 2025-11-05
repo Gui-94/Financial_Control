@@ -14,49 +14,23 @@ function discoverHtmlPages(pagesDir) {
   return entries;
 }
 
-const pagesDir = resolve(__dirname, 'pages');
+const pagesDir = resolve(__dirname, '.'); // 👈 raiz do projeto (onde estão index.html, onepag.html)
 const input = discoverHtmlPages(pagesDir);
 if (!input.index) input.index = resolve(pagesDir, 'index.html');
 
 export default defineConfig({
-  appType: 'mpa',
-  plugins: [
-    {
-      name: 'pretty-urls-pages-mapper',
-      configureServer(server) {
-        server.middlewares.use((req, _res, next) => {
-          const original = req.url;
-          const url = original.split('?')[0];
-          if (url === '/' || url === '/index.html') {
-            req.url = '/pages/index.html';
-          } else if (!url.includes('.') && !url.startsWith('/api')) {
-            // ex.: /sobre -> /pages/sobre.html
-            req.url = `/pages${url}.html`;
-          }
-          next();
-        });
-      }
-    }
-  ],
+  appType: 'mpa', // múltiplas páginas
+  publicDir: 'public', // 👈 aqui sim define a pasta dos arquivos estáticos
   server: {
     port: 3000,
-    strictPort: false,
-    open: '/pages/index.html',
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3001',
-        changeOrigin: true
-      }
-    }
+    open: '/index.html',
   },
   build: {
     rollupOptions: {
-      input
+      input,
     },
     outDir: 'dist',
-    assetsDir: 'assets'
+    assetsDir: 'assets',
   },
-  base: '/'
+  base: '/',
 });
-
-
