@@ -1,15 +1,6 @@
 // ====== VERIFICA LOGIN ======
 const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
-if (!usuarioLogado) {
-  Swal.fire({
-    icon: 'warning',
-    title: 'Você precisa fazer login primeiro!',
-    confirmButtonText: 'Ir para Login',
-  }).then(() => {
-    window.location.href = '/index.html';
-  });
-}
 
 // ====== ELEMENTOS ======
 const form = document.getElementById('formGasto');
