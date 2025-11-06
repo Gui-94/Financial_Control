@@ -25,12 +25,13 @@ function corAleatoria(categoria) {
 }
 
 // ====== DADOS ======
-let gastos = JSON.parse(localStorage.getItem(`gastos_${usuarioLogado.email}`)) || [];
+const chaveGastos = `gastos_${usuarioLogado?.email || 'semEmail'}`;
+let gastos = JSON.parse(localStorage.getItem(chaveGastos)) || [];
 
-// ====== SALVAR ======
 function salvarGastos() {
-  localStorage.setItem(`gastos_${usuarioLogado.email}`, JSON.stringify(gastos));
+  localStorage.setItem(chaveGastos, JSON.stringify(gastos));
 }
+
 
 // ====== RESUMO ======
 function atualizarResumo(lista = gastos) {
