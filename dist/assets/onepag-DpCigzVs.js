@@ -1,0 +1,17 @@
+import"./style-Gp4Vj5WO.js";const u=JSON.parse(localStorage.getItem("usuarioLogado")),v=document.getElementById("formGasto"),g=document.getElementById("listaGastos"),y=document.getElementById("resumo"),E=document.getElementById("graficoGastos").getContext("2d"),B=document.getElementById("filtroMes"),h=document.getElementById("btnFiltrar"),d=document.getElementById("logoutBtn");let m;const l={};function S(t){if(l[t])return l[t];const e=Math.floor(Math.random()*200+30),o=Math.floor(Math.random()*200+30),n=Math.floor(Math.random()*200+30);return l[t]=`rgba(${e},${o},${n},0.7)`,l[t]}const b=`gastos_${(u==null?void 0:u.email)||"semEmail"}`;let a=JSON.parse(localStorage.getItem(b))||[];function f(){localStorage.setItem(b,JSON.stringify(a))}function $(t=a){const e={};t.forEach(r=>{const s=r.categoria||"Sem categoria";e[s]=(e[s]||0)+r.valor});const o=t.reduce((r,s)=>r+s.valor,0);y.innerHTML=`
+    <p>Total: <b>R$ ${o.toFixed(2)}</b></p>
+    ${Object.entries(e).map(([r,s])=>`<p>💡 ${r}: R$ ${s.toFixed(2)}</p>`).join("")}
+  `;const n=Object.keys(e),p=Object.values(e),i=n.map(S);m&&m.destroy(),m=new Chart(E,{type:"pie",data:{labels:n,datasets:[{data:p,backgroundColor:i,borderColor:"#fff",borderWidth:2}]},options:{responsive:!0,plugins:{legend:{position:"bottom",labels:{color:"#fff",font:{size:16,family:"Arial, sans-serif"}}}}}})}function c(t=a){g.innerHTML="",t.forEach(e=>{const o=document.createElement("li");o.innerHTML=`
+      💸 <b>${e.descricao}</b> - R$ ${e.valor.toFixed(2)} (${e.categoria||"Sem categoria"}) - <i>${e.data}</i>
+      <div class="menu-wrapper">
+        <button class="menu-btn">⋮</button>
+        <div class="menu-opcoes">
+          <button class="btn-editar">🖋️</button>
+          <button class="btn-excluir">🚮</button>
+        </div>
+      </div>
+    `;const n=o.querySelector(".menu-wrapper");o.querySelector(".menu-btn").addEventListener("click",i=>{i.stopPropagation(),n.classList.toggle("active")}),o.querySelector(".btn-editar").onclick=()=>I(e),o.querySelector(".btn-excluir").onclick=()=>w(e),g.appendChild(o)}),$(t)}async function I(t){const{value:e}=await Swal.fire({title:"Editar Gasto",html:`
+      <input id="desc" class="swal2-input" value="${t.descricao}">
+      <input id="valor" type="number" step="0.01" class="swal2-input" value="${t.valor}">
+      <input id="cat" class="swal2-input" value="${t.categoria||""}">
+    `,showCancelButton:!0,confirmButtonText:"Salvar",preConfirm:()=>({descricao:document.getElementById("desc").value,valor:parseFloat(document.getElementById("valor").value),categoria:document.getElementById("cat").value})});e&&(Object.assign(t,e),f(),c(),Swal.fire("Atualizado!","","success"))}async function w(t){(await Swal.fire({title:`Excluir "${t.descricao}"?`,icon:"warning",showCancelButton:!0,confirmButtonText:"Sim"})).isConfirmed&&(a=a.filter(o=>o!==t),f(),c())}v.addEventListener("submit",t=>{t.preventDefault();const e={descricao:document.getElementById("descricao").value,valor:parseFloat(document.getElementById("valor").value),data:document.getElementById("data").value,categoria:document.getElementById("categoria").value};a.push(e),f(),v.reset(),c()});h.addEventListener("click",()=>{const t=B.value;if(!t)return Swal.fire("Selecione um mês!");const e=a.filter(o=>o.data.startsWith(t));c(e)});d==null||d.addEventListener("click",()=>{localStorage.removeItem("usuarioLogado"),window.location.href="/index.html"});c();
