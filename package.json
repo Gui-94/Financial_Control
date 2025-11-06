@@ -9,6 +9,9 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "vite": "^4.5.3"
+    "vite": "^4.5.14"
+  },
+  "dependencies": {
+    "sweetalert2": "^11.26.3"
   }
 }

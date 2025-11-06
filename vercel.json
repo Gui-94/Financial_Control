@@ -6,12 +6,12 @@
     {
       "source": "/login",
 
-      "destination": "/pages/onepag.html"
+      "destination": "/onepag.html"
     },
 
     {
       "source": "/",
-      "destination": "/pages/index.html"
+      "destination": "/index.html"
     }
   ],
   "headers": [
