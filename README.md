@@ -26,7 +26,7 @@ Permite gerenciar gastos, visualizar estatísticas e acompanhar o saldo de forma
 
 ## ⚙️ Estrutura do Projeto
 
-
+..
 
 ---
 
