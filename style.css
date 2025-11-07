@@ -72,17 +72,92 @@ h2 {
 }
 
 /* ======= SEÇÕES (CARDS) ======= */
-.div1, .div2, .div10, .div4, .div12 {
+
+/* 🔹 CARD 1 */
+.div1 {
   border-radius: 20px;
   padding: 25px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
   transition: transform 0.3s, box-shadow 0.3s;
-  background: rgba(255,255,255,0.05);
+  background: linear-gradient(145deg, #474747f6, #6801017a);
+  grid-column: 1 / 13;
+  grid-row: 1 / 2;
 }
+
+/* 🔹 CARD 2 */
+.div2 {
+  border-radius: 20px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s, box-shadow 0.3s;
+  background: linear-gradient(145deg, #474747f6, #000000f6);
+  grid-column: 1 / 5;
+  grid-row: 2 / 4;
+}
+
+/* 🔹 CARD 3 (div10) */
+.div10 {
+  border-radius: 20px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s, box-shadow 0.3s;
+  background: linear-gradient(145deg, #474747f6, #000000f6);
+  grid-column: 5 / 9;
+  grid-row: 3 / 4;
+}
+
+/* 🔹 CARD 4 */
+.div4 {
+  border-radius: 20px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s, box-shadow 0.3s;
+  background: linear-gradient(145deg, #474747f6, #000000f6);
+  grid-column: 9 / 13;
+  grid-row: 2 / 4;
+}
+
+/* 🔹 CARD 5 */
+.div12 {
+  border-radius: 20px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s, box-shadow 0.3s;
+  background: linear-gradient(145deg, #474747f6, #000000f6);
+  grid-column: 1 / 13;
+  grid-row: 4 / 5;
+}
+
+/* ======= HOVER (EFEITO ZOOM) ======= */
+.div1:hover,
+.div2:hover,
+.div10:hover,
+.div4:hover,
+.div12:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
 
 .div1:hover, .div2:hover, .div10:hover, .div4:hover, .div12:hover {
   transform: translateY(-5px);
@@ -157,7 +232,6 @@ canvas {
   width: 469px !important;
   height: 300px !important;
   border-radius: 15px;
-  background: rgba(255,255,255,0.05);
   padding: 3px;
 }
 
