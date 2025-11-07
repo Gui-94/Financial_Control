@@ -18,16 +18,26 @@ body {
   align-items: center;
 }
 
-/* ======= CONTAINER PRINCIPAL ======= */
-.container {
-  width: 73%;
-  max-width: none; /* 🔓 remove a limitação */
-  margin: 40;
+/* ===== CONTAINER DA PÁGINA DE LOGIN ===== */
+.container-login {
+  width: 60%;
+  max-width: 36%;
+  margin: auto;
+  padding: 30px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* ===== CONTAINER DA PÁGINA DE ONEPAG ===== */
+.container-onepag {
+  width: 90%;
+  max-width: 73%;
+  margin: 20px auto;
   padding: 40px;
   display: flex;
   flex-direction: column;
-  align-items: stretch; /* 🔄 deixa os filhos ocuparem toda a largura */
-  justify-content: flex-start;
 }
 
 .parent {
