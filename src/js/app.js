@@ -104,24 +104,14 @@ function listarGastos(lista = gastos) {
   lista.forEach(g => {
     const valor = parseFloat(g.valor) || 0;
     const li = document.createElement('li');
+
     li.innerHTML = `
-      💸 <b>${g.descricao || 'Sem descrição'}</b> - R$ ${valor.toFixed(2)} (${g.categoria || 'Sem categoria'}) - <i>${g.data || ''}</i>
-      <div class="menu-wrapper">
-        <button class="menu-btn">⋮</button>
-        <div class="menu-opcoes">
-          <button class="btn-editar">🖋️</button>
-          <button class="btn-excluir">🚮</button>
-        </div>
+      <span>💸 <b>${g.descricao || 'Sem descrição'}</b> - R$ ${valor.toFixed(2)} (${g.categoria || 'Sem categoria'}) - <i>${g.data || ''}</i></span>
+      <div class="acoes">
+        <button class="btn-editar">🖋️</button>
+        <button class="btn-excluir">🚮</button>
       </div>
     `;
-
-    const menuWrapper = li.querySelector('.menu-wrapper');
-    const menuBtn = li.querySelector('.menu-btn');
-
-    menuBtn.addEventListener('click', e => {
-      e.stopPropagation();
-      menuWrapper.classList.toggle('active');
-    });
 
     li.querySelector('.btn-editar').onclick = () => editarGasto(g);
     li.querySelector('.btn-excluir').onclick = () => excluirGasto(g);
@@ -130,8 +120,9 @@ function listarGastos(lista = gastos) {
   });
 
   atualizarResumo(lista);
-  atualizarProgressoMeta(lista); // 🔥 integração com a meta
+  atualizarProgressoMeta(lista);
 }
+
 
 // ====== EDITAR GASTO ======
 async function editarGasto(g) {
@@ -159,6 +150,7 @@ async function editarGasto(g) {
   }
 }
 
+
 // ====== EXCLUIR GASTO ======
 async function excluirGasto(g) {
   const confirm = await Swal.fire({
@@ -174,6 +166,7 @@ async function excluirGasto(g) {
     listarGastos();
   }
 }
+
 
 // ====== META FINANCEIRA ======
 const chaveMeta = `meta_${usuarioLogado?.email || 'semEmail'}`;
