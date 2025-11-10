@@ -12,6 +12,14 @@ const filtroMes = document.getElementById('filtroMes');
 const btnFiltrar = document.getElementById('btnFiltrar');
 const btnLogout = document.getElementById('logoutBtn');
 
+// ====== META FINANCEIRA ELEMENTOS ======
+const formMeta = document.getElementById('formMeta');
+const valorMetaInput = document.getElementById('valorMeta');
+const metaValor = document.getElementById('metaValor');
+const gastoAtual = document.getElementById('gastoAtual');
+const progress = document.querySelector('.progress');
+const percentualMeta = document.getElementById('percentualMeta');
+
 console.log("📋 Form encontrado:", form);
 console.log("📊 Canvas encontrado:", ctx);
 console.log("🔍 Botão filtro encontrado:", btnFiltrar);
@@ -94,7 +102,7 @@ function listarGastos(lista = gastos) {
   listaGastos.innerHTML = '';
 
   lista.forEach(g => {
-    const valor = parseFloat(g.valor) || 0; // ✅ evita erro de toFixed
+    const valor = parseFloat(g.valor) || 0;
     const li = document.createElement('li');
     li.innerHTML = `
       💸 <b>${g.descricao || 'Sem descrição'}</b> - R$ ${valor.toFixed(2)} (${g.categoria || 'Sem categoria'}) - <i>${g.data || ''}</i>
@@ -122,6 +130,7 @@ function listarGastos(lista = gastos) {
   });
 
   atualizarResumo(lista);
+  atualizarProgressoMeta(lista); // 🔥 integração com a meta
 }
 
 // ====== EDITAR GASTO ======
@@ -165,6 +174,55 @@ async function excluirGasto(g) {
     listarGastos();
   }
 }
+
+// ====== META FINANCEIRA ======
+const chaveMeta = `meta_${usuarioLogado?.email || 'semEmail'}`;
+let metaMensal = parseFloat(localStorage.getItem(chaveMeta)) || 0;
+
+if (metaMensal > 0) {
+  metaValor.textContent = metaMensal.toFixed(2);
+}
+
+function atualizarProgressoMeta(lista = gastos) {
+  if (!metaMensal || metaMensal <= 0) return;
+
+  const totalGasto = lista.reduce((acc, g) => acc + (parseFloat(g.valor) || 0), 0);
+  const porcentagem = Math.min((totalGasto / metaMensal) * 100, 100);
+
+  gastoAtual.textContent = totalGasto.toFixed(2);
+  percentualMeta.textContent = `${porcentagem.toFixed(1)}% da meta gasta`;
+  progress.style.width = `${porcentagem}%`;
+
+  if (porcentagem >= 100) {
+    progress.style.background = "linear-gradient(90deg, #ff1744, #ff5252)";
+    percentualMeta.style.color = "#ff5252";
+  } else if (porcentagem >= 70) {
+    progress.style.background = "linear-gradient(90deg, #ff9100, #ffab40)";
+    percentualMeta.style.color = "#ffab40";
+  } else {
+    progress.style.background = "linear-gradient(90deg, #00c853, #b2ff59)";
+    percentualMeta.style.color = "#b2ff59";
+  }
+}
+
+formMeta?.addEventListener('submit', e => {
+  e.preventDefault();
+
+  const valor = parseFloat(valorMetaInput.value);
+  if (valor <= 0) {
+    Swal.fire("Informe um valor válido!", "", "warning");
+    return;
+  }
+
+  metaMensal = valor;
+  localStorage.setItem(chaveMeta, valor);
+
+  metaValor.textContent = valor.toFixed(2);
+  atualizarProgressoMeta();
+
+  Swal.fire("Meta salva com sucesso!", "", "success");
+  formMeta.reset();
+});
 
 // ====== EVENTOS ======
 form?.addEventListener('submit', e => {

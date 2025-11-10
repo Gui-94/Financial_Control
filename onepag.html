@@ -54,6 +54,24 @@
         <h2>Resumo do mês</h2>
         <div id="resumo"></div>
       </section>
+
+      <!-- 🔥 Meta Financeira -->
+      <section class="div13">
+        <h2>Meta Financeira</h2>
+        <form id="formMeta">
+          <input type="number" id="valorMeta" placeholder="Defina sua meta mensal (R$)" step="0.01" required>
+          <button type="submit">Salvar Meta 🎯</button>
+        </form>
+
+        <div class="meta-info">
+          <p>Meta: <b>R$ <span id="metaValor">0.00</span></b></p>
+          <p>Gasto atual: <b>R$ <span id="gastoAtual">0.00</span></b></p>
+          <p id="percentualMeta">0% da meta gasta</p>
+          <div class="progress-bar">
+            <div class="progress"></div>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 
