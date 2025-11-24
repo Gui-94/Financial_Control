@@ -1,4 +1,4 @@
-/* ======= RESET ======= */
+/* RESET */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -10,12 +10,13 @@ html, body {
   height: 100%;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(rgba(13, 19, 58, 0.9), rgba(13, 19, 58, 0.9)),
-              url('https://images.unsplash.com/photo-1605902711622-cfb43c4437b5') center/cover no-repeat;
+              url('https://images.unsplash.com/photo-1605902711622-cfb43c4437b5')
+              center/cover no-repeat;
   color: #fff;
   overflow-y: auto;
 }
 
-/* ======= CONTAINER ======= */
+/* CONTAINER */
 .container-onepag {
   width: 100%;
   max-width: 1400px;
@@ -27,16 +28,15 @@ html, body {
   min-height: 100vh;
 }
 
-/* ======= GRID DO DASHBOARD ======= */
+/* GRID */
 .parent {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: auto;
   gap: 20px;
   flex: 1;
 }
 
-/* ======= TÍTULOS ======= */
+/* TITULOS */
 h1 {
   font-size: 2.5rem;
   text-align: center;
@@ -48,12 +48,12 @@ h2 {
   margin-bottom: 10px;
 }
 
-/* ======= CARDS ======= */
+/* CARDS */
 .div1, .div2, .div10, .div4, .div12, .div13 {
   border-radius: 15px;
   padding: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
   background: linear-gradient(145deg, #474747f6, #000000f6);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -66,53 +66,54 @@ h2 {
 .div12 { grid-column: 1 / 13; }
 .div13 { grid-column: 1 / 13; }
 
-/* ======= FORM ======= */
+/* INPUTS E BOTÕES */
 input, button {
   border-radius: 8px;
   border: none;
   padding: 10px;
   font-size: 1rem;
 }
+
 input {
   width: 100%;
   background: rgba(255,255,255,0.1);
   color: #fff;
-  padding-left: 8px;
 }
-input::placeholder { color: #ddd; }
+
+input::placeholder {
+  color: #ddd;
+}
+
 button {
   background: linear-gradient(135deg, #ff9a9e, #fad0c4);
   color: #000;
   font-weight: bold;
   cursor: pointer;
 }
+
 button:hover {
   background: linear-gradient(135deg, #fad0c4, #ff9a9e);
 }
 
-/* ======= LISTA ======= */
+/* LISTA */
 ul {
   list-style: none;
-  width: 100%;
   max-height: 400px;
   overflow-y: auto;
   padding-right: 5px;
 }
+
 ul li {
-  background: rgb(248, 246, 246);
+  background: #fff;
   color: #000;
   padding: 10px;
-  margin-bottom: 8px;
   border-radius: 10px;
+  margin-bottom: 8px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-}
-ul li:hover {
-  background: rgba(255,255,255,0.2);
 }
 
-/* ======= GRÁFICO ======= */
+/* GRÁFICO */
 canvas {
   width: 100%;
   height: 250px;
@@ -120,109 +121,52 @@ canvas {
   border-radius: 10px;
 }
 
-/* ======= META FINANCEIRA ======= */
-.div13 {
-  background: linear-gradient(145deg, #2d2d2d, #111);
-  text-align: center;
-}
-
-.div13 form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.div13 input {
-  width: 60%;
-  text-align: center;
-}
-
-.div13 .meta-info {
-  margin-top: 15px;
-  text-align: center;
-}
-
-.div13 .progress-bar {
+/* META FINANCEIRA */
+.progress-bar {
   width: 80%;
   height: 25px;
+  margin: 10px auto;
   background: rgba(255,255,255,0.1);
   border-radius: 20px;
-  margin: 10px auto;
   overflow: hidden;
 }
 
-.div13 .progress {
-  width: 0%;
+.progress {
   height: 100%;
+  width: 0%;
   background: linear-gradient(90deg, #00ffb3, #00d4ff);
-  transition: width 0.6s ease-in-out;
-  border-radius: 20px;
+  transition: width 0.6s ease;
 }
 
-/* ======= FOOTER ======= */
+/* FOOTER */
 footer {
   text-align: center;
   color: #ccc;
-  font-size: 0.9rem;
   padding: 10px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
 }
 
-/* ======= ÍCONES DO FOOTER ======= */
 footer img {
   width: 28px;
   height: 28px;
-  vertical-align: middle;
-  margin: 0 6px;
   border-radius: 50%;
-  transition: transform 0.2s ease;
 }
+
 footer img:hover {
   transform: scale(1.2);
 }
-footer a {
-  color: #ccc;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-footer a:hover {
-  color: #fff;
-}
 
-/* ======= RESPONSIVO ======= */
+/* RESPONSIVIDADE */
 @media (max-width: 1200px) {
-  .parent {
-    grid-template-columns: repeat(8, 1fr);
-  }
+  .parent { grid-template-columns: repeat(8, 1fr); }
   .div1 { grid-column: 1 / 9; }
   .div2 { grid-column: 1 / 5; }
   .div10 { grid-column: 5 / 9; }
-  .div4 { grid-column: 1 / 9; }
-  .div12, .div13 { grid-column: 1 / 9; }
+  .div4, .div12, .div13 { grid-column: 1 / 9; }
 }
 
 @media (max-width: 900px) {
   .parent {
     display: flex;
     flex-direction: column;
-  }
-  .div1, .div2, .div10, .div4, .div12, .div13 {
-    width: 100%;
-  }
-
-  footer {
-    font-size: 0.8rem;
-  }
-
-  footer img {
-    width: 24px;
-    height: 24px;
   }
 }

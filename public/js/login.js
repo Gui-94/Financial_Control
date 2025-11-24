@@ -1,16 +1,21 @@
 // ====== ELEMENTOS ======
 const loginForm = document.getElementById("loginForm");
 const registerForm = document.getElementById("registerForm");
-const toggleForm = document.getElementById("toggleForm");
 
-// ====== TROCAR ENTRE LOGIN E CADASTRO ======
-toggleForm.addEventListener("click", () => {
-  const loginVisible = loginForm.style.display !== "none";
-  loginForm.style.display = loginVisible ? "none" : "block";
-  registerForm.style.display = loginVisible ? "block" : "none";
-  toggleForm.textContent = loginVisible
-    ? "Já tem uma conta? Faça login"
-    : "Criar uma conta";
+const toggleToRegister = document.getElementById("toggleToRegister");
+const toggleToLogin = document.getElementById("toggleToLogin");
+
+// ====== TROCAR TELA ======
+toggleToRegister.addEventListener("click", (e) => {
+  e.preventDefault();
+  loginForm.style.display = "none";
+  registerForm.style.display = "block";
+});
+
+toggleToLogin.addEventListener("click", (e) => {
+  e.preventDefault();
+  registerForm.style.display = "none";
+  loginForm.style.display = "block";
 });
 
 // ====== LOGIN ======
@@ -25,20 +30,21 @@ loginForm.addEventListener("submit", (e) => {
 
   if (user) {
     localStorage.setItem("user", JSON.stringify(user));
+
     Swal.fire({
       icon: "success",
-      title: "Login realizado com sucesso!",
+      title: "Login realizado!",
       showConfirmButton: false,
       timer: 1500
     }).then(() => {
-      window.location.href = `${window.location.origin}/onepag.html`;
-
+      window.location.href = "/onepag.html";
     });
+
   } else {
     Swal.fire({
       icon: "error",
       title: "Usuário não encontrado",
-      text: "Verifique seu email e senha e tente novamente."
+      text: "Verifique seu email e senha."
     });
   }
 });
@@ -59,29 +65,27 @@ registerForm.addEventListener("submit", (e) => {
   }
 
   const users = JSON.parse(localStorage.getItem("users")) || [];
-
   const emailExiste = users.some((u) => u.email === newEmail);
+
   if (emailExiste) {
     Swal.fire({
       icon: "error",
       title: "Email já cadastrado",
-      text: "Tente fazer login ou use outro email."
+      text: "Use outro email."
     });
     return;
   }
 
-  const novoUsuario = { email: newEmail, senha: newSenha };
-  users.push(novoUsuario);
+  users.push({ email: newEmail, senha: newSenha });
   localStorage.setItem("users", JSON.stringify(users));
 
   Swal.fire({
     icon: "success",
-    title: "Conta criada com sucesso!",
-    text: "Agora faça login para continuar."
+    title: "Conta criada!",
+    text: "Faça login para continuar."
   }).then(() => {
     registerForm.reset();
     registerForm.style.display = "none";
     loginForm.style.display = "block";
-    toggleForm.textContent = "Criar uma conta";
   });
 });
