@@ -40,24 +40,25 @@ loginForm.addEventListener("submit", (e) => {
   }
 
   const users = JSON.parse(localStorage.getItem("users")) || [];
-  const user = users.find((u) => u.email === email && u.senha === senha);
 
-  if (user) {
-   localStorage.setItem("usuarioLogado", JSON.stringify(user));
+  // busca por email apenas
+  const user = users.find(u => u.email === email);
 
-
-    Swal.fire({
-      icon: "success",
-      title: "Login realizado!",
-      timer: 1500,
-      showConfirmButton: false
-    }).then(() => {
-      window.location.href = "./onepag.html";
-    });
-
-  } else {
-    Swal.fire("Erro", "Email ou senha inválidos.", "error");
+  if (!user || user.senha !== senha) {
+    return Swal.fire("Erro", "Email ou senha inválidos.", "error");
   }
+
+  // salva login e redireciona
+  localStorage.setItem("usuarioLogado", JSON.stringify(user));
+
+  Swal.fire({
+    icon: "success",
+    title: "Login realizado!",
+    timer: 1500,
+    showConfirmButton: false
+  }).then(() => {
+    window.location.href = "./onepag.html";
+  });
 });
 
 // ====== CADASTRO ======
@@ -86,12 +87,12 @@ registerForm.addEventListener("submit", (e) => {
     return Swal.fire("Erro", "Email já cadastrado!", "error");
   }
 
+  // salva novo usuário
   users.push({ email: newEmail, senha: newSenha });
   localStorage.setItem("users", JSON.stringify(users));
 
   Swal.fire("Conta criada!", "Agora faça login.", "success").then(() => {
     registerForm.reset();
-    registerForm.style.display = "none";
-    loginForm.style.display = "block";
+    toggleToLogin.click(); // volta para o login
   });
 });
