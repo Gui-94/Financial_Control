@@ -43,7 +43,8 @@ loginForm.addEventListener("submit", (e) => {
   const user = users.find((u) => u.email === email && u.senha === senha);
 
   if (user) {
-    localStorage.setItem("user", JSON.stringify(user));
+   localStorage.setItem("usuarioLogado", JSON.stringify(user));
+
 
     Swal.fire({
       icon: "success",
@@ -51,7 +52,7 @@ loginForm.addEventListener("submit", (e) => {
       timer: 1500,
       showConfirmButton: false
     }).then(() => {
-      window.location.href = "/onepag.html";
+      window.location.href = "./onepag.html";
     });
 
   } else {

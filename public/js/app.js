@@ -1,5 +1,6 @@
 // ====== Verifica Login ======
-const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+localStorage.setItem("usuarioLogado", JSON.stringify(user));
+
 
 // ELEMENTOS
 const form = document.getElementById("formGasto");
