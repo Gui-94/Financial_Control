@@ -17,7 +17,7 @@
 
       <div class="brand">
         <div class="logo">💳</div>
-        <h1>Finance Pro</h1>
+        <h1> Controle Financeiro</h1>
       </div>
 
       <!-- LOGIN -->
@@ -34,7 +34,7 @@
 
         <p class="register">
           Não tem conta?
-          <a id="toggleToRegister" href="#">Criar agora</a>
+          <a id="toggleFormLogin" href="#">Criar agora</a>
         </p>
       </form>
 
@@ -48,17 +48,21 @@
         <label>Senha</label>
         <input id="newSenha" type="password" placeholder="Crie uma senha" required>
 
+        <small id="passwordTip" style="color:#ddd; font-size:0.8rem; display:block; margin-top:5px;">
+          A senha deve ter: mínimo 8 caracteres, 1 letra maiúscula, 1 minúscula e 1 número.
+        </small>
+
         <button type="submit" class="btn-login">Cadastrar</button>
 
         <p class="register">
           Já tem conta?
-          <a id="toggleToLogin" href="#">Fazer login</a>
+          <a id="toggleFormRegister" href="#">Fazer login</a>
         </p>
       </form>
 
     </div>
   </div>
 
-  <script src="/js/login.js" defer></script>
+  <script src="/public/js/login.js" defer></script>
 </body>
 </html>

@@ -1,72 +1,76 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Controle de Gastos 💰</title>
 
-  <!-- Estilos -->
-  <link rel="stylesheet" href="/dashboard.css">
+  <link rel="stylesheet" href="/dashboard.css" />
 
-  <!-- Bibliotecas -->
+  <!-- Libs -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-  <div class="container-onepag">
-    <h1>💰 Controle de Gastos</h1>
+  <div class="container">
+    <h1 class="titulo-principal">💰 Controle de Gastos</h1>
 
-    <div class="parent">
-      <!-- Adicionar Gasto -->
-      <section class="div1">
+    <div class="grid">
+      
+      <!-- ADICIONAR -->
+      <section class="card full">
         <h2>Adicionar Gasto</h2>
-        <form id="formGasto">
-          <input type="text" id="descricao" placeholder="Descrição" required>
-          <input type="number" step="0.01" id="valor" placeholder="Valor" required>
-          <input type="date" id="data" required>
-          <input type="text" id="categoria" placeholder="Categoria (opcional)">
-          <button type="submit">Adicionar 💸</button>
+
+        <form id="formGasto" class="form-card">
+          <input type="text" id="descricao" placeholder="Descrição" required />
+          <input type="number" id="valor" step="0.01" placeholder="Valor (R$)" required />
+          <input type="date" id="data" required />
+          <input type="text" id="categoria" placeholder="Categoria" />
+          <button type="submit" class="btn">Adicionar 💸</button>
         </form>
       </section>
 
-      <!-- Gastos do mês -->
-      <section class="div2">
+      <!-- LISTA -->
+      <section class="card col-4">
         <h2>Gastos do mês</h2>
-        <ul id="listaGastos" class="lista-gastos"></ul>
+        <ul id="listaGastos" class="lista"></ul>
       </section>
 
-      <!-- Filtro -->
-      <section class="div10">
-        <h2>Filtro de Gastos</h2>
-        <label for="filtroMes">Selecione o mês:</label>
-        <input type="month" id="filtroMes">
-        <button id="btnFiltrar">Buscar 🔎</button>
+      <!-- FILTRO -->
+      <section class="card col-4">
+        <h2>Filtrar Gastos</h2>
+
+        <label>Mês:</label>
+        <input type="month" id="filtroMes" />
+        <button id="btnFiltrar" class="btn">Filtrar 🔎</button>
       </section>
 
-      <!-- Gráfico -->
-      <section class="div4">
+      <!-- GRÁFICO -->
+      <section class="card col-4">
         <h2>Gráfico de Gastos</h2>
         <canvas id="graficoGastos"></canvas>
       </section>
 
-      <!-- Resumo -->
-      <section class="div12">
+      <!-- RESUMO -->
+      <section class="card full">
         <h2>Resumo do mês</h2>
-        <div id="resumo"></div>
+        <div id="resumo" class="resumo-box"></div>
       </section>
 
-      <!-- 🔥 Meta Financeira -->
-      <section class="div13">
+      <!-- META -->
+      <section class="card full">
         <h2>Meta Financeira</h2>
-        <form id="formMeta">
-          <input type="number" id="valorMeta" placeholder="Defina sua meta mensal (R$)" step="0.01" required>
-          <button type="submit">Salvar Meta 🎯</button>
+
+        <form id="formMeta" class="form-card">
+          <input type="number" id="valorMeta" step="0.01" placeholder="Meta Mensal (R$)" required />
+          <button class="btn">Salvar Meta 🎯</button>
         </form>
 
-        <div class="meta-info">
+        <div class="meta-dados">
           <p>Meta: <b>R$ <span id="metaValor">0.00</span></b></p>
-          <p>Gasto atual: <b>R$ <span id="gastoAtual">0.00</span></b></p>
-          <p id="percentualMeta">0% da meta gasta</p>
+          <p>Gasto atual: <b class="cor-valor">R$ <span id="gastoAtual">0.00</span></b></p>
+          <p id="percentualMeta" class="percentual">0% da meta gasta</p>
+
           <div class="progress-bar">
             <div class="progress"></div>
           </div>
@@ -76,18 +80,9 @@
   </div>
 
   <footer>
-    <div class="links">
-      <p>© 2025 Controle de Gastos | Desenvolvido por <strong>Lucas Cabral e Guilherme Tavares</strong></p>
-      <a href="https://github.com/Caabraldev" target="_blank" class="github-link">
-        <img src="../images/icone-git.png" alt="GitHub Lucas Cabral" class="icon">
-      </a>
-      <a href="https://github.com/Gui-94" target="_blank" class="github-link">
-        <img src="../images/icone-git.png" alt="GitHub Guilherme Tavares" class="icon">
-      </a>
-    </div>
+    <p>© 2025 Controle de Gastos | Dev: Lucas Cabral & Guilherme Tavares</p>
   </footer>
 
-  <!-- Script principal -->
   <script src="/public/js/app.js" defer></script>
 </body>
 </html>
