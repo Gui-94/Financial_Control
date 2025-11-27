@@ -238,3 +238,86 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================
+   MOBILE RESPONSIVO PROFISSIONAL
+   ============================ */
+@media (max-width: 768px) {
+
+  body {
+    padding: 0 10px;
+  }
+
+  .titulo-principal {
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+
+  .container {
+    padding: 10px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr !important;
+    gap: 15px;
+  }
+
+  .card {
+    padding: 15px;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #15182c, #0c0f1f);
+  }
+
+  input {
+    padding: 14px;
+    font-size: 1rem;
+  }
+
+  .btn {
+    padding: 14px;
+    font-size: 1rem;
+    border-radius: 10px;
+  }
+
+  /* Lista de gastos */
+  .lista {
+    max-height: 300px;
+    padding-right: 5px;
+  }
+
+  .lista li {
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+  }
+
+  .lista .valor {
+    font-size: 1.2rem;
+  }
+
+  /* Gráfico */
+  canvas {
+    height: 200px !important;
+  }
+
+  /* Meta */
+  .percentual {
+    font-size: 1rem;
+  }
+
+  .progress-bar {
+    height: 18px;
+  }
+
+  /* Footer */
+  footer {
+    font-size: 0.8rem;
+    padding: 5px;
+    margin-top: 20px;
+  }
+
+  .icon {
+    width: 22px;
+    height: 22px;
+  }
+}
