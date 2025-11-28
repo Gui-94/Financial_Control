@@ -34,7 +34,7 @@
 <body>
 
   <!-- BOTÃO SAIR -->
-  <button class="btn-sair" onclick="logout()">Sair</button>
+  <button id="btnSair" class="btn-sair">Sair</button>
 
   <div class="container">
     <h1 class="titulo-principal">💰 Controle de Gastos</h1>
@@ -116,14 +116,17 @@
     </div>
   </footer>
 
+  <!-- SCRIPT LOGOUT (ATUALIZADO) -->
   <script>
     function logout() {
-      // Caso esteja usando token no LocalStorage
+      // Remove token salvo
       localStorage.removeItem("token");
 
-      // Volta para tela de login
-      window.location.href = "/login";
+      // Redireciona SEMPRE para index.html (login)
+      window.location.href = window.location.origin + "/index.html";
     }
+
+    document.getElementById("btnSair").addEventListener("click", logout);
   </script>
 
   <script src="/js/app.js" defer></script>
