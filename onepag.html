@@ -7,16 +7,40 @@
 
   <link rel="stylesheet" href="/dashboard.css" />
 
-  <!-- Libs -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    /* Botão de sair */
+    .btn-sair {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #ff3b3b;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 15px;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .btn-sair:hover {
+      background: #d92525;
+    }
+  </style>
 </head>
 <body>
+
+  <!-- BOTÃO SAIR -->
+  <button class="btn-sair" onclick="logout()">Sair</button>
+
   <div class="container">
     <h1 class="titulo-principal">💰 Controle de Gastos</h1>
 
     <div class="grid">
-      
+
       <!-- ADICIONAR -->
       <section class="card full">
         <h2>Adicionar Gasto</h2>
@@ -40,9 +64,10 @@
       <section class="card col-4">
         <h2>Filtrar Gastos</h2>
 
-        <label>Mês:</label>
+        <label for="filtroMes">Mês:</label>
         <input type="month" id="filtroMes" />
         <button id="btnFiltrar" class="btn">Filtrar 🔎</button>
+        <button id="btnLimparFiltro" class="btn" style="margin-top:8px;background:#2979ff">Limpar filtro</button>
       </section>
 
       <!-- GRÁFICO -->
@@ -82,15 +107,24 @@
   <footer>
     <div class="links">
       <p>© 2025 Controle de Gastos | Desenvolvido por <strong>Guilherme Tavares e Lucas Cabral</strong></p>
-      <a href= "https://github.com/Gui-94" target="_blank" class="github-link">
-        <img src="../images/icone-git.png" alt="GitHub Lucas Cabral" class="icon">
+      <a href="https://github.com/Gui-94" target="_blank" class="github-link">
+        <img src="/images/icone-git.png" alt="GitHub Lucas Cabral" class="icon">
       </a>
-      <a href= "https://github.com/Caabraldev" target="_blank" class="github-link">
-        <img src="../images/icone-git.png" alt="GitHub Guilherme Tavares" class="icon">
+      <a href="https://github.com/Caabraldev" target="_blank" class="github-link">
+        <img src="/images/icone-git.png" alt="GitHub Guilherme Tavares" class="icon">
       </a>
     </div>
   </footer>
 
+  <script>
+    function logout() {
+      // Caso esteja usando token no LocalStorage
+      localStorage.removeItem("token");
+
+      // Volta para tela de login
+      window.location.href = "/login";
+    }
+  </script>
 
   <script src="/js/app.js" defer></script>
 </body>
