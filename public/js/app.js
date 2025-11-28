@@ -2,7 +2,6 @@
 const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
 
 if (!usuarioLogado) {
-  // Se não tiver login -> redireciona para login
   window.location.href = "login.html";
 }
 
@@ -51,7 +50,6 @@ function listar(filtro = null) {
     const li = document.createElement("li");
     li.classList.add("item-gasto");
 
-    // marca cor do valor (você já tem classes .valor-verde/.valor-vermelho)
     const corValor = valor > 300 ? "valor-vermelho" : "valor-verde";
 
     li.innerHTML = `
@@ -74,10 +72,10 @@ function listar(filtro = null) {
   });
 
   atualizarResumo();
-  atualizarProgresso();
+  atualizarMetaFinanceira();  // <<< atualização incluída
 }
 
-// helper: formatar data yyyy-mm-dd -> dd/mm/yyyy
+// formatar data
 function formatDate(iso) {
   if (!iso) return "";
   const d = new Date(iso);
@@ -89,7 +87,6 @@ function formatDate(iso) {
 function atualizarResumo() {
   const total = gastos.reduce((acc, g) => acc + parseFloat(g.valor || 0), 0);
 
-  // Agrupar por categoria para mostrar um mini-resumo (opcional)
   const porCategoria = {};
   gastos.forEach(g => {
     const cat = g.categoria || "Outros";
@@ -144,27 +141,64 @@ function atualizarGrafico() {
   });
 }
 
-// ====== PROGRESSO DA META ======
-function atualizarProgresso() {
+// ======================================================================
+//                🔥 NOVA FUNÇÃO — ULTRAPASSAGEM DE META 🔥
+// ======================================================================
+function atualizarMetaFinanceira() {
+  const total = gastos.reduce((acc, g) => acc + parseFloat(g.valor || 0), 0);
+
   if (!metaMensal || metaMensal <= 0) {
-    metaValor.textContent = (0).toFixed(2);
-    gastoAtual.textContent = (0).toFixed(2);
-    percentualMeta.textContent = `0% da meta gasta`;
+    metaValor.textContent = "0.00";
+    gastoAtual.textContent = total.toFixed(2);
+    percentualMeta.innerHTML = "Defina uma meta para começar.";
     progress.style.width = "0%";
     progress.style.background = "#00e676";
     return;
   }
 
-  const total = gastos.reduce((acc, g) => acc + parseFloat(g.valor || 0), 0);
-  const pct = Math.min((total / metaMensal) * 100, 100);
+  const dif = total - metaMensal;           // diferença do gasto atual para meta
+  const pct = (total / metaMensal) * 100;   // percentual
 
+  // Atualiza valores básicos
   metaValor.textContent = metaMensal.toFixed(2);
   gastoAtual.textContent = total.toFixed(2);
-  percentualMeta.textContent = `${pct.toFixed(1)}% da meta gasta`;
 
-  progress.style.width = pct + "%";
-  progress.style.background = pct > 70 ? "#ff5252" : "#00e676";
+  // ----- ULTRAPASSOU (dif > 0) -----
+  if (dif > 0) {
+    percentualMeta.innerHTML =
+      `<span style="color:#ff2b2b;font-weight:bold">⚠ Você ultrapassou a meta!</span><br>` +
+      `Excedido: <b style="color:#ff2b2b">R$ ${dif.toFixed(2)}</b>`;
+
+    progress.style.width = "100%";
+    progress.style.background = "#ff2b2b";
+
+  // ----- META EXATA -----
+  } else if (dif === 0) {
+    percentualMeta.innerHTML =
+      `<span style="color:#1e90ff;font-weight:bold">🎯 Meta atingida exatamente!</span>`;
+    
+    progress.style.width = "100%";
+    progress.style.background = "#1e90ff";
+
+  // ----- ABAIXO DA META -----
+  } else {
+    const falta = Math.abs(dif).toFixed(2);
+    percentualMeta.innerHTML =
+      `Você usou <b>${pct.toFixed(1)}%</b> da meta.<br>` +
+      `Ainda pode gastar <b style="color:#00e676">R$ ${falta}</b>.`;
+
+    const largura = Math.min(pct, 100);
+    progress.style.width = largura + "%";
+
+    progress.style.background =
+      pct < 70 ? "#00e676" :
+      pct < 100 ? "#ffa726" :
+      "#ff2b2b";
+  }
 }
+
+// ======================================================================
+
 
 // ====== ADICIONAR GASTO ======
 form.addEventListener("submit", (e) => {
@@ -175,7 +209,6 @@ form.addEventListener("submit", (e) => {
   const dataEl = document.getElementById("data");
   const categoriaEl = document.getElementById("categoria");
 
-  // validação básica
   if (!descricaoEl.value || !valorEl.value || !dataEl.value) {
     return Swal.fire("Preencha descrição, valor e data", "", "warning");
   }
@@ -203,7 +236,7 @@ formMeta.addEventListener("submit", (e) => {
   metaMensal = parseFloat(valorMetaInput.value);
   salvarMeta();
 
-  atualizarProgresso();
+  atualizarMetaFinanceira();
   formMeta.reset();
 
   Swal.fire("Meta salva!", "", "success");
@@ -214,12 +247,10 @@ btnFiltrar.addEventListener("click", () => {
   const mes = filtroMes.value;
   if (!mes) return Swal.fire("Escolha um mês!");
 
-  // filtro por começo da string YYYY-MM
   const filtrados = gastos.filter((g) => String(g.data || "").startsWith(mes));
   listar(filtrados);
 });
 
-// limpar filtro (volta a mostrar tudo)
 if (btnLimparFiltro) {
   btnLimparFiltro.addEventListener("click", () => {
     filtroMes.value = "";
@@ -227,7 +258,7 @@ if (btnLimparFiltro) {
   });
 }
 
-// ====== EDITAR GASTO (SweetAlert2 modal) ======
+// ====== EDITAR GASTO ======
 function editarGasto(index) {
   const g = gastos[index];
 
@@ -270,9 +301,6 @@ function editarGasto(index) {
 
     salvarGastos();
     listar();
-    atualizarResumo();
-    atualizarGrafico();
-    atualizarProgresso();
 
     Swal.fire("Pronto!", "Gasto atualizado com sucesso!", "success");
   });
@@ -294,15 +322,11 @@ function excluirGasto(index) {
 
     salvarGastos();
     listar();
-    atualizarResumo();
-    atualizarGrafico();
-    atualizarProgresso();
 
     Swal.fire("Excluído!", "O gasto foi removido.", "success");
   });
 }
 
-// util: evita injection simples no modal (pequena segurança)
 function escapeHtml(str) {
   if (!str) return "";
   return String(str)
@@ -315,4 +339,4 @@ function escapeHtml(str) {
 
 // ====== INICIO ======
 listar();
-atualizarProgresso();
+atualizarMetaFinanceira();
