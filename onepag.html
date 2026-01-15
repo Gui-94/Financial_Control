@@ -11,7 +11,6 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
-    /* Botão de sair */
     .btn-sair {
       position: absolute;
       top: 20px;
@@ -47,7 +46,10 @@
 
         <form id="formGasto" class="form-card">
           <input type="text" id="descricao" placeholder="Descrição" required />
-          <input type="number" id="valor" step="0.01" placeholder="Valor (R$)" required />
+
+          <!-- INPUT AJUSTADO PARA FORMATO BR -->
+          <input type="text" id="valor" placeholder="Valor (R$)" required />
+
           <input type="date" id="data" required />
           <input type="text" id="categoria" placeholder="Categoria" />
           <button type="submit" class="btn">Adicionar 💸</button>
@@ -67,7 +69,9 @@
         <label for="filtroMes">Mês:</label>
         <input type="month" id="filtroMes" />
         <button id="btnFiltrar" class="btn">Filtrar 🔎</button>
-        <button id="btnLimparFiltro" class="btn" style="margin-top:8px;background:#2979ff">Limpar filtro</button>
+        <button id="btnLimparFiltro" class="btn" style="margin-top:8px;background:#2979ff">
+          Limpar filtro
+        </button>
       </section>
 
       <!-- GRÁFICO -->
@@ -87,13 +91,14 @@
         <h2>Meta Financeira</h2>
 
         <form id="formMeta" class="form-card">
-          <input type="number" id="valorMeta" step="0.01" placeholder="Meta Mensal (R$)" required />
+          <!-- META TAMBÉM EM TEXTO PARA FORMATO BR -->
+          <input type="text" id="valorMeta" placeholder="Meta Mensal (R$)" required />
           <button class="btn">Salvar Meta 🎯</button>
         </form>
 
         <div class="meta-dados">
-          <p>Meta: <b>R$ <span id="metaValor">0.00</span></b></p>
-          <p>Gasto atual: <b class="cor-valor">R$ <span id="gastoAtual">0.00</span></b></p>
+          <p>Meta: <b>R$ <span id="metaValor">0,00</span></b></p>
+          <p>Gasto atual: <b class="cor-valor">R$ <span id="gastoAtual">0,00</span></b></p>
           <p id="percentualMeta" class="percentual">0% da meta gasta</p>
 
           <div class="progress-bar">
@@ -108,27 +113,26 @@
     <div class="links">
       <p>© 2025 Controle de Gastos | Desenvolvido por <strong>Guilherme Tavares e Lucas Cabral</strong></p>
       <a href="https://github.com/Gui-94" target="_blank" class="github-link">
-        <img src="/images/icone-git.png" alt="GitHub Lucas Cabral" class="icon">
+        <img src="/images/icone-git.png" alt="GitHub Guilherme Tavares" class="icon">
       </a>
       <a href="https://github.com/Caabraldev" target="_blank" class="github-link">
-        <img src="/images/icone-git.png" alt="GitHub Guilherme Tavares" class="icon">
+        <img src="/images/icone-git.png" alt="GitHub Lucas Cabral" class="icon">
       </a>
     </div>
   </footer>
 
-  <!-- SCRIPT LOGOUT (ATUALIZADO) -->
+  <!-- LOGOUT -->
   <script>
     function logout() {
-      // Remove token salvo
       localStorage.removeItem("token");
-
-      // Redireciona SEMPRE para index.html (login)
       window.location.href = window.location.origin + "/index.html";
     }
 
     document.getElementById("btnSair").addEventListener("click", logout);
   </script>
 
+  <!-- SCRIPT PRINCIPAL -->
   <script src="/js/app.js" defer></script>
+
 </body>
 </html>
