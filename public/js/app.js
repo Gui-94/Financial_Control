@@ -10,6 +10,7 @@ const ctx = document.getElementById("graficoGastos")?.getContext("2d");
 
 const filtroMes = document.getElementById("filtroMes");
 const btnFiltrar = document.getElementById("btnFiltrar");
+const btnLimparFiltro = document.getElementById("btnLimparFiltro");
 
 const formMeta = document.getElementById("formMeta");
 const valorMetaInput = document.getElementById("valorMeta");
@@ -25,68 +26,51 @@ const chaveMeta = `meta_${usuarioLogado.email}`;
 let gastos = JSON.parse(localStorage.getItem(chaveGastos)) || [];
 let metaMensal = Number(localStorage.getItem(chaveMeta)) || 0;
 
-// 🔔 CONTROLE DE ALERTA
 let alertaMetaExibido = false;
 
 // ================== UTIL ==================
-function salvarGastos() {
+const salvarGastos = () =>
   localStorage.setItem(chaveGastos, JSON.stringify(gastos));
-}
-function salvarMeta() {
+
+const salvarMeta = () =>
   localStorage.setItem(chaveMeta, metaMensal);
-}
 
 // ================== CONVERSÕES ==================
-function brParaNumero(valor) {
-  if (!valor) return 0;
-  return Number(valor.replace(/\./g, "").replace(",", ".")) || 0;
-}
+const brParaNumero = v =>
+  Number(v.replace(/\./g, "").replace(",", ".")) || 0;
 
-function numeroParaBR(valor) {
-  return Number(valor).toLocaleString("pt-BR", {
+const numeroParaBR = v =>
+  Number(v).toLocaleString("pt-BR", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   });
-}
 
-// ================== MÁSCARA MOEDA BR ==================
+// ================== MÁSCARA ==================
 function mascaraMoedaBR(input, limite = 100000) {
-  input.addEventListener("input", function () {
-    let valor = this.value.replace(/\D/g, "");
-    if (!valor) {
-      this.value = "";
-      return;
-    }
-    let numero = Number(valor) / 100;
-    if (numero > limite) numero = limite;
-    this.value = numeroParaBR(numero);
+  input.addEventListener("input", () => {
+    let v = input.value.replace(/\D/g, "");
+    if (!v) return (input.value = "");
+    let n = Math.min(Number(v) / 100, limite);
+    input.value = numeroParaBR(n);
   });
 }
 
-// ================== APLICAR MÁSCARA ==================
-mascaraMoedaBR(document.getElementById("valor"), 100000);
-if (valorMetaInput) mascaraMoedaBR(valorMetaInput, 100000);
+mascaraMoedaBR(document.getElementById("valor"));
+mascaraMoedaBR(valorMetaInput);
 
-// ================== LISTAR ==================
+// ================== LISTAGEM ==================
 function listar(lista = gastos) {
   listaGastos.innerHTML = "";
 
-  lista.forEach((g, index) => {
+  lista.forEach((g, i) => {
     const li = document.createElement("li");
-    li.className = "item-gasto";
-
     li.innerHTML = `
       <div>
         <strong>${g.descricao}</strong>
         <small>${g.categoria} • ${new Date(g.data).toLocaleDateString()}</small>
       </div>
-      <div>
-        <span>R$ ${numeroParaBR(g.valor)}</span>
-        <button onclick="editarGasto(${index})">✏️</button>
-        <button onclick="excluirGasto(${index})">🗑️</button>
-      </div>
+      <span>R$ ${numeroParaBR(g.valor)}</span>
     `;
-
     listaGastos.appendChild(li);
   });
 
@@ -95,14 +79,15 @@ function listar(lista = gastos) {
 }
 
 // ================== RESUMO ==================
-function atualizarResumo(lista = gastos) {
+function atualizarResumo(lista) {
   const total = lista.reduce((a, g) => a + g.valor, 0);
   resumoDiv.innerHTML = `<b>Total:</b> R$ ${numeroParaBR(total)}`;
 }
 
 // ================== GRÁFICO ==================
 let chart;
-function atualizarGrafico(lista = gastos) {
+
+function atualizarGrafico(lista) {
   if (!ctx) return;
 
   const categorias = {};
@@ -115,6 +100,8 @@ function atualizarGrafico(lista = gastos) {
 
   if (chart) chart.destroy();
 
+  const isMobile = window.innerWidth <= 768;
+
   chart = new Chart(ctx, {
     type: "doughnut",
     data: {
@@ -122,62 +109,35 @@ function atualizarGrafico(lista = gastos) {
       datasets: [{
         data: valores,
         backgroundColor: [
-          "#22c55e",
-          "#3b82f6",
-          "#f59e0b",
-          "#ef4444",
-          "#8b5cf6",
-          "#06b6d4"
+          "#22c55e", "#3b82f6", "#f59e0b",
+          "#ef4444", "#8b5cf6", "#06b6d4"
         ],
         borderWidth: 2,
-        borderColor: "#0f172a"
+        borderColor: "#0b122b"
       }]
     },
     options: {
       responsive: true,
-      cutout: "65%",
+      cutout: isMobile ? "70%" : "65%",
       plugins: {
-        title: {
-          display: true,
-          text: "Distribuição de Gastos por Categoria",
-          color: "#ffffff",
-          font: {
-            size: 18,
-            weight: "bold"
-          },
-          padding: {
-            bottom: 20
-          }
-        },
         legend: {
+          display: !isMobile,
           position: "bottom",
-          labels: {
-            color: "#ffffff",
-            font: {
-              size: 14
-            },
-            padding: 20
-          }
+          labels: { color: "#fff" }
         },
         tooltip: {
           callbacks: {
-            label: function (context) {
-              const valor = context.raw;
+            label(ctx) {
               const total = valores.reduce((a, b) => a + b, 0);
-              const pct = ((valor / total) * 100).toFixed(1);
-
-              return `${context.label}: R$ ${numeroParaBR(valor)} (${pct}%)`;
+              const pct = ((ctx.raw / total) * 100).toFixed(1);
+              return `${ctx.label}: R$ ${numeroParaBR(ctx.raw)} (${pct}%)`;
             }
-          },
-          bodyFont: {
-            size: 14
           }
         }
       }
     }
   });
 }
-
 
 // ================== META ==================
 function atualizarMetaFinanceira() {
@@ -189,125 +149,48 @@ function atualizarMetaFinanceira() {
   if (!metaMensal) {
     percentualMeta.textContent = "Defina uma meta.";
     progress.style.width = "0%";
-    progress.style.background = "#4caf50";
-    alertaMetaExibido = false;
     return;
   }
 
-  const pctReal = (total / metaMensal) * 100;
-  const pct = Math.min(pctReal, 100);
-
+  const pct = Math.min((total / metaMensal) * 100, 100);
   progress.style.width = pct + "%";
-
-  if (pctReal >= 100) {
-    progress.style.background = "#e53935";
-    percentualMeta.textContent = "Meta estourada!";
-
-    if (!alertaMetaExibido) {
-      alertaMetaExibido = true;
-      Swal.fire({
-        icon: "warning",
-        title: "⚠️ Meta ultrapassada!",
-        html: `
-          <b>Meta:</b> R$ ${numeroParaBR(metaMensal)}<br>
-          <b>Gasto atual:</b> R$ ${numeroParaBR(total)}
-        `,
-        confirmButtonText: "Entendi"
-      });
-    }
-  } else {
-    progress.style.background = "#4caf50";
-    percentualMeta.textContent = `${pctReal.toFixed(1)}% da meta`;
-    alertaMetaExibido = false;
-  }
+  percentualMeta.textContent = `${pct.toFixed(1)}% da meta`;
 }
 
-// ================== ADD GASTO ==================
+// ================== EVENTOS ==================
 form.addEventListener("submit", e => {
   e.preventDefault();
 
-  const descricao = document.getElementById("descricao").value;
-  const valor = brParaNumero(document.getElementById("valor").value);
-  const data = document.getElementById("data").value;
-  const categoria = document.getElementById("categoria").value || "Outros";
+  gastos.push({
+    descricao: descricao.value,
+    valor: brParaNumero(valor.value),
+    data: data.value,
+    categoria: categoria.value || "Outros"
+  });
 
-  if (!descricao || !valor || !data) {
-    Swal.fire("Preencha todos os campos");
-    return;
-  }
-
-  gastos.push({ descricao, valor, data, categoria });
   salvarGastos();
   listar();
   atualizarMetaFinanceira();
   form.reset();
 });
 
-// ================== META ==================
 formMeta.addEventListener("submit", e => {
   e.preventDefault();
   metaMensal = brParaNumero(valorMetaInput.value);
-  alertaMetaExibido = false;
   salvarMeta();
   atualizarMetaFinanceira();
 });
 
-// ================== EDITAR ==================
-function editarGasto(index) {
-  const g = gastos[index];
-
-  Swal.fire({
-    title: "Editar gasto",
-    html: `
-      <input id="eDesc" value="${g.descricao}" class="swal2-input">
-      <input id="eVal" value="${numeroParaBR(g.valor)}" class="swal2-input">
-      <input id="eDat" type="date" value="${g.data}" class="swal2-input">
-    `,
-    didOpen: () => mascaraMoedaBR(document.getElementById("eVal")),
-    preConfirm: () => ({
-      descricao: document.getElementById("eDesc").value,
-      valor: brParaNumero(document.getElementById("eVal").value),
-      data: document.getElementById("eDat").value
-    })
-  }).then(r => {
-    if (!r.isConfirmed) return;
-    gastos[index] = { ...gastos[index], ...r.value };
-    salvarGastos();
-    listar();
-    atualizarMetaFinanceira();
-  });
-}
-
-// ================== EXCLUIR ==================
-function excluirGasto(index) {
-  gastos.splice(index, 1);
-  salvarGastos();
-  listar();
-  atualizarMetaFinanceira();
-}
-
-// ================== FILTRO ==================
-btnFiltrar.addEventListener("click", () => {
+btnFiltrar.onclick = () => {
   const mes = filtroMes.value;
+  listar(mes ? gastos.filter(g => g.data.startsWith(mes)) : gastos);
+};
 
-  if (!mes) {
-    listar();
-    return;
-  }
-
-  const filtrados = gastos.filter(g => g.data.slice(0, 7) === mes);
-  listar(filtrados);
-  const btnLimparFiltro = document.getElementById("btnLimparFiltro");
-});
+btnLimparFiltro.onclick = () => {
+  filtroMes.value = "";
+  listar();
+};
 
 // ================== INIT ==================
 listar();
 atualizarMetaFinanceira();
-
-// ================== LIMPAR FILTRO ==================
-btnLimparFiltro.addEventListener("click", () => {
-  filtroMes.value = "";
-  listar();              // volta todos os gastos
-  atualizarMetaFinanceira();
-});
-

@@ -5,30 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Controle de Gastos 💰</title>
 
+  <!-- CSS -->
   <link rel="stylesheet" href="/dashboard.css" />
 
+  <!-- LIBS -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-  <style>
-    .btn-sair {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: #ff3b3b;
-      padding: 10px 18px;
-      border: none;
-      border-radius: 8px;
-      color: #fff;
-      font-size: 15px;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .btn-sair:hover {
-      background: #d92525;
-    }
-  </style>
 </head>
 <body>
 
@@ -40,16 +22,13 @@
 
     <div class="grid">
 
-      <!-- ADICIONAR -->
+      <!-- ADICIONAR GASTO -->
       <section class="card full">
         <h2>Adicionar Gasto</h2>
 
         <form id="formGasto" class="form-card">
           <input type="text" id="descricao" placeholder="Descrição" required />
-
-          <!-- INPUT AJUSTADO PARA FORMATO BR -->
           <input type="text" id="valor" placeholder="Valor (R$)" required />
-
           <input type="date" id="data" required />
           <input type="text" id="categoria" placeholder="Categoria" />
           <button type="submit" class="btn">Adicionar 💸</button>
@@ -68,6 +47,7 @@
 
         <label for="filtroMes">Mês:</label>
         <input type="month" id="filtroMes" />
+
         <button id="btnFiltrar" class="btn">Filtrar 🔎</button>
         <button id="btnLimparFiltro" class="btn" style="margin-top:8px;background:#2979ff">
           Limpar filtro
@@ -91,44 +71,34 @@
         <h2>Meta Financeira</h2>
 
         <form id="formMeta" class="form-card">
-          <!-- META TAMBÉM EM TEXTO PARA FORMATO BR -->
           <input type="text" id="valorMeta" placeholder="Meta Mensal (R$)" required />
           <button class="btn">Salvar Meta 🎯</button>
         </form>
 
         <div class="meta-dados">
           <p>Meta: <b>R$ <span id="metaValor">0,00</span></b></p>
-          <p>Gasto atual: <b class="cor-valor">R$ <span id="gastoAtual">0,00</span></b></p>
-          <p id="percentualMeta" class="percentual">0% da meta gasta</p>
+          <p>Gasto atual: <b>R$ <span id="gastoAtual">0,00</span></b></p>
+          <p id="percentualMeta" class="percentual"></p>
 
           <div class="progress-bar">
             <div class="progress"></div>
           </div>
         </div>
       </section>
+
     </div>
   </div>
 
   <footer>
-    <div class="links">
-      <p>© 2025 Controle de Gastos | Desenvolvido por <strong>Guilherme Tavares e Lucas Cabral</strong></p>
-      <a href="https://github.com/Gui-94" target="_blank" class="github-link">
-        <img src="/images/icone-git.png" alt="GitHub Guilherme Tavares" class="icon">
-      </a>
-      <a href="https://github.com/Caabraldev" target="_blank" class="github-link">
-        <img src="/images/icone-git.png" alt="GitHub Lucas Cabral" class="icon">
-      </a>
-    </div>
+    <p>© 2025 Controle de Gastos | Desenvolvido por <strong>Guilherme Tavares e Lucas Cabral</strong></p>
   </footer>
 
   <!-- LOGOUT -->
   <script>
-    function logout() {
-      localStorage.removeItem("token");
-      window.location.href = window.location.origin + "/index.html";
-    }
-
-    document.getElementById("btnSair").addEventListener("click", logout);
+    document.getElementById("btnSair").addEventListener("click", () => {
+      localStorage.removeItem("usuarioLogado");
+      window.location.href = "login.html";
+    });
   </script>
 
   <!-- SCRIPT PRINCIPAL -->

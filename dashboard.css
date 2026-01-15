@@ -1,4 +1,4 @@
-/* RESET */
+/* ================= RESET ================= */
 * {
   margin: 0;
   padding: 0;
@@ -11,7 +11,7 @@ body {
   color: #fff;
 }
 
-/* CONTAINER */
+/* ================= CONTAINER ================= */
 .container {
   max-width: 1300px;
   margin: auto;
@@ -25,7 +25,7 @@ body {
   letter-spacing: 1px;
 }
 
-/* GRID */
+/* ================= GRID ================= */
 .grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -35,19 +35,26 @@ body {
 .col-4 { grid-column: span 4; }
 .full  { grid-column: 1 / 13; }
 
-/* CARDS */
+/* ================= CARDS ================= */
 .card {
   padding: 20px;
-  border-radius: 16px;
+  border-radius: 18px;
   background: linear-gradient(145deg, #1a1f2f, #0e1120);
-  box-shadow: 0 5px 14px rgba(0,0,0,0.5);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(0,0,0,.45);
 }
 
 .card h2 {
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
+/* ================= FORM ================= */
 .form-card input,
 .form-card button {
   margin-bottom: 10px;
@@ -56,7 +63,7 @@ body {
 input {
   width: 100%;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
   background: #ffffff0a;
   color: #fff;
@@ -69,7 +76,7 @@ input::placeholder { color: #ccc; }
   width: 100%;
   font-weight: bold;
   background: #00e676;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
   transition: .2s;
@@ -77,131 +84,48 @@ input::placeholder { color: #ccc; }
 
 .btn:hover { background: #00c853; }
 
-/* LISTA */
+/* ================= LISTA ================= */
 .lista {
   list-style: none;
   max-height: 350px;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #00e676 transparent;
 }
 
 .lista li {
   background: #fff;
   color: #000;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   padding: 14px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.item-info {
+.lista li div {
   display: flex;
   flex-direction: column;
 }
 
-.lista .valor {
+.lista li span {
   font-weight: bold;
-  font-size: 1.1rem;
 }
 
-.valor-verde { color: #00c853; }
-.valor-vermelho { color: #ff5252; }
-
-/* AÇÕES */
-.acoes {
-  display: flex;
-  gap: 8px;
-}
-
-.btn-acao {
-  border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  color: #fff;
-  font-weight: bold;
-  transition: .2s;
-}
-
-.btn-editar {
-  background: #2979ff;
-}
-
-.btn-editar:hover {
-  background: #1565c0;
-}
-
-.btn-excluir {
-  background: #ff5252;
-}
-
-.btn-excluir:hover {
-  background: #d32f2f;
-}
-
-/* MODAL */
-.modal-bg {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: #000000b7;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  visibility: hidden;
-  opacity: 0;
-  transition: .3s;
-}
-
-.modal-bg.ativo {
-  visibility: visible;
-  opacity: 1;
-}
-
-.modal {
-  background: #1a1f2f;
-  padding: 20px;
-  border-radius: 14px;
-  width: 400px;
-  box-shadow: 0 0 20px #000;
-}
-
-.modal h3 {
-  margin-bottom: 10px;
-}
-
-.modal input {
-  margin-bottom: 10px;
-}
-
-.modal button {
-  width: 100%;
-  padding: 12px;
-  background: #00e676;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.modal button:hover {
-  background: #00c853;
-}
-
-/* GRÁFICO */
-canvas {
+/* ================= GRÁFICO ================= */
+.card canvas {
+  width: 100% !important;
   height: 260px !important;
 }
 
-/* RESUMO */
-.resumo-box p {
+/* ================= RESUMO ================= */
+.resumo-box {
   font-size: 1.2rem;
-  margin: 5px 0;
 }
 
-/* META */
+/* ================= META ================= */
 .progress-bar {
   width: 100%;
   height: 20px;
@@ -223,7 +147,7 @@ canvas {
   margin-top: 10px;
 }
 
-/* FOOTER */
+/* ================= FOOTER ================= */
 footer {
   text-align: center;
   margin-top: 40px;
@@ -232,30 +156,12 @@ footer {
   color: #ccc;
 }
 
-/* ICON AJUSTE */
 .icon {
   width: 22px;
   height: 22px;
 }
 
-/* ====== META ULTRAPASSADA ====== */
-.meta-ultrapassada {
-  color: #ff5252 !important;
-  font-weight: bold;
-}
-
-/* Destaque visual para o valor excedido */
-.excedido-box {
-  margin-top: 8px;
-  padding: 8px 12px;
-  background: rgba(255, 82, 82, 0.18);
-  border-left: 4px solid #ff5252;
-  border-radius: 8px;
-  color: #ff8a80;
-  font-size: 1rem;
-}
-
-/* ===== BOTÃO SAIR (LOGOUT) ===== */
+/* ================= BOTÃO SAIR ================= */
 .btn-sair {
   position: absolute;
   top: 20px;
@@ -263,15 +169,82 @@ footer {
   background: #ff5252;
   padding: 10px 20px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   color: #fff;
   cursor: pointer;
   font-weight: bold;
   font-size: 1rem;
   transition: .2s;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.45);
 }
 
 .btn-sair:hover {
   background: #d32f2f;
+}
+
+/* ================================================= */
+/* ================= MOBILE UX ===================== */
+/* ================================================= */
+@media (max-width: 768px) {
+
+  /* Grid vira coluna única */
+  .grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .col-4,
+  .full {
+    grid-column: span 1 !important;
+  }
+
+  /* Cards estilo app */
+  .card {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Tipografia */
+  .titulo-principal {
+    font-size: 1.9rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  /* Inputs e botões (anti-zoom iOS) */
+  input,
+  button {
+    font-size: 16px;
+  }
+
+  /* Lista livre */
+  .lista {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  /* ===== GRÁFICO MOBILE PROFISSIONAL ===== */
+  .card canvas {
+    height: 320px !important;
+    margin-top: 10px;
+  }
+
+  /* Centralização */
+  h1, h2 {
+    text-align: center;
+  }
+
+  /* Botão sair vira CTA */
+  .btn-sair {
+    position: static;
+    width: 100%;
+    margin-bottom: 12px;
+    border-radius: 16px;
+  }
 }
