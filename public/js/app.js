@@ -45,13 +45,12 @@ const numeroParaBR = v =>
     maximumFractionDigits: 2
   });
 
-// ================== MÁSCARA ==================
-function mascaraMoedaBR(input, limite = 100000) {
+// ================== MÁSCARA (SEM LIMITE) ==================
+function mascaraMoedaBR(input) {
   input.addEventListener("input", () => {
     let v = input.value.replace(/\D/g, "");
     if (!v) return (input.value = "");
-    let n = Math.min(Number(v) / 100, limite);
-    input.value = numeroParaBR(n);
+    input.value = numeroParaBR(Number(v) / 100);
   });
 }
 
@@ -64,13 +63,22 @@ function listar(lista = gastos) {
 
   lista.forEach((g, i) => {
     const li = document.createElement("li");
+    li.className = "item-gasto";
+
     li.innerHTML = `
       <div>
         <strong>${g.descricao}</strong>
         <small>${g.categoria} • ${new Date(g.data).toLocaleDateString()}</small>
       </div>
-      <span>R$ ${numeroParaBR(g.valor)}</span>
+      <div>
+        <span>R$ ${numeroParaBR(g.valor)}</span>
+        <div class="acoes">
+          <button onclick="editarGasto(${i})">✏️</button>
+          <button onclick="excluirGasto(${i})">🗑️</button>
+        </div>
+      </div>
     `;
+
     listaGastos.appendChild(li);
   });
 
@@ -149,15 +157,39 @@ function atualizarMetaFinanceira() {
   if (!metaMensal) {
     percentualMeta.textContent = "Defina uma meta.";
     progress.style.width = "0%";
+    progress.style.background = "#00e676";
+    alertaMetaExibido = false;
     return;
   }
 
-  const pct = Math.min((total / metaMensal) * 100, 100);
+  const pctReal = (total / metaMensal) * 100;
+  const pct = Math.min(pctReal, 100);
+
   progress.style.width = pct + "%";
-  percentualMeta.textContent = `${pct.toFixed(1)}% da meta`;
+
+  if (pctReal >= 100) {
+    progress.style.background = "#ef4444";
+    percentualMeta.textContent = `Meta ultrapassada (${pctReal.toFixed(1)}%)`;
+
+    if (!alertaMetaExibido) {
+      alertaMetaExibido = true;
+      Swal.fire({
+        icon: "warning",
+        title: "⚠️ Meta ultrapassada!",
+        html: `
+          <b>Meta:</b> R$ ${numeroParaBR(metaMensal)}<br>
+          <b>Gasto:</b> R$ ${numeroParaBR(total)}
+        `
+      });
+    }
+  } else {
+    progress.style.background = "#00e676";
+    percentualMeta.textContent = `${pctReal.toFixed(1)}% da meta`;
+    alertaMetaExibido = false;
+  }
 }
 
-// ================== EVENTOS ==================
+// ================== ADD GASTO ==================
 form.addEventListener("submit", e => {
   e.preventDefault();
 
@@ -174,13 +206,59 @@ form.addEventListener("submit", e => {
   form.reset();
 });
 
+// ================== META ==================
 formMeta.addEventListener("submit", e => {
   e.preventDefault();
   metaMensal = brParaNumero(valorMetaInput.value);
+  alertaMetaExibido = false;
   salvarMeta();
   atualizarMetaFinanceira();
 });
 
+// ================== EDITAR ==================
+function editarGasto(index) {
+  const g = gastos[index];
+
+  Swal.fire({
+    title: "Editar gasto",
+    html: `
+      <input id="eDesc" class="swal2-input" value="${g.descricao}">
+      <input id="eVal" class="swal2-input" value="${numeroParaBR(g.valor)}">
+      <input id="eDat" type="date" class="swal2-input" value="${g.data}">
+    `,
+    didOpen: () => mascaraMoedaBR(document.getElementById("eVal")),
+    preConfirm: () => ({
+      descricao: document.getElementById("eDesc").value,
+      valor: brParaNumero(document.getElementById("eVal").value),
+      data: document.getElementById("eDat").value
+    })
+  }).then(r => {
+    if (!r.isConfirmed) return;
+    gastos[index] = { ...gastos[index], ...r.value };
+    salvarGastos();
+    listar();
+    atualizarMetaFinanceira();
+  });
+}
+
+// ================== EXCLUIR ==================
+function excluirGasto(index) {
+  Swal.fire({
+    title: "Excluir gasto?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Excluir",
+    cancelButtonText: "Cancelar"
+  }).then(r => {
+    if (!r.isConfirmed) return;
+    gastos.splice(index, 1);
+    salvarGastos();
+    listar();
+    atualizarMetaFinanceira();
+  });
+}
+
+// ================== FILTRO ==================
 btnFiltrar.onclick = () => {
   const mes = filtroMes.value;
   listar(mes ? gastos.filter(g => g.data.startsWith(mes)) : gastos);
@@ -189,8 +267,19 @@ btnFiltrar.onclick = () => {
 btnLimparFiltro.onclick = () => {
   filtroMes.value = "";
   listar();
+  atualizarMetaFinanceira();
 };
 
 // ================== INIT ==================
 listar();
 atualizarMetaFinanceira();
+
+// ================== SAIR ==================
+const btnSair = document.querySelector(".btn-sair");
+
+if (btnSair) {
+  btnSair.addEventListener("click", () => {
+    localStorage.removeItem("usuarioLogado");
+    window.location.href = "index.html";
+  });
+}

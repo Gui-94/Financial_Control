@@ -15,7 +15,7 @@
 <body>
 
   <!-- BOTÃO SAIR -->
-  <button id="btnSair" class="btn-sair">Sair</button>
+  <button type="button" class="btn-sair">Sair</button>
 
   <div class="container">
     <h1 class="titulo-principal">💰 Controle de Gastos</h1>
@@ -72,7 +72,7 @@
 
         <form id="formMeta" class="form-card">
           <input type="text" id="valorMeta" placeholder="Meta Mensal (R$)" required />
-          <button class="btn">Salvar Meta 🎯</button>
+          <button type="submit" class="btn">Salvar Meta 🎯</button>
         </form>
 
         <div class="meta-dados">
@@ -97,7 +97,7 @@
   <script>
     document.getElementById("btnSair").addEventListener("click", () => {
       localStorage.removeItem("usuarioLogado");
-      window.location.href = "login.html";
+      window.location.href = "index.html";
     });
   </script>
 
